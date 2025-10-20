@@ -63,7 +63,7 @@ function useMergedPropByScreen(
     }
   }
   watch(
-    [() => JSON.stringify(oriProp), screen],
+    [() => JSON.stringify(oriProp.value), screen],
     () => {
       calcMergedAlignOrJustify()
     },

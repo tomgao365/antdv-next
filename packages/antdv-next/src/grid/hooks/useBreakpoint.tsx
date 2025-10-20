@@ -24,3 +24,5 @@ export function useBreakpoint(
   })
   return screensRef
 }
+
+export default useBreakpoint

@@ -17,5 +17,7 @@ declare module 'vue' {
         ASpaceCompact: typeof import('antdv-next')['SpaceCompact'];
         AFlex: typeof import('antdv-next')['Flex'];
         AConfigProvider: typeof import('antdv-next')['ConfigProvider'];
+        ACol: typeof import('antdv-next')['Col'];
+        ARow: typeof import('antdv-next')['Row'];
     }
 }

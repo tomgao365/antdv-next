@@ -1,6 +1,7 @@
 import type { App, Plugin } from 'vue'
 import * as components from './components'
 
+export * from './components'
 let prefix = 'A'
 
 export default {
@@ -18,4 +19,4 @@ export default {
   },
 } as Plugin
 
-export * from './components'
+export { useBreakpoint } from './grid'
