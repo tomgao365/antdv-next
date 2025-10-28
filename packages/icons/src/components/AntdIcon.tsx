@@ -56,7 +56,6 @@ const Icon = defineComponent<IconComponentProps>(
           [`${prefixCls}-spin`]: !!spin || icon.name === 'loading',
         },
       )
-
       let iconTabIndex = tabIndex
       if (iconTabIndex === undefined && onClick) {
         iconTabIndex = -1
@@ -88,6 +87,9 @@ const Icon = defineComponent<IconComponentProps>(
         </span>
       )
     }
+  },
+  {
+    inheritAttrs: false,
   },
 )
 

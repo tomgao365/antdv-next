@@ -87,6 +87,7 @@ const IconBase = defineComponent<IconProps>(
   },
   {
     name: 'IconBase',
+    inheritAttrs: false,
   },
 )
 const IconBaseComp = IconBase as unknown as typeof IconBase & IconBaseComponent

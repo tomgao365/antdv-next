@@ -2,7 +2,8 @@ import type { AriaAttributes, Ref, VNodeChild } from 'vue'
 import type { RenderNodeFn, VueNode } from '../type.ts'
 import { CloseOutlined } from '@antdv-next/icons'
 import pickAttrs from '@v-c/util/dist/pickAttrs'
-import { cloneVNode, computed, isVNode, ref } from 'vue'
+import { filterEmpty } from '@v-c/util/dist/props-util'
+import { computed, createVNode, isVNode, ref } from 'vue'
 import extendsObject from '../extendsObject'
 import { getVNode } from '../vueNode.ts'
 
@@ -137,10 +138,15 @@ export default function useClosable(
       // Wrap the closeIcon if needed
       if (closeIconRender) {
         mergedCloseIcon = closeIconRender(mergedCloseIcon)
+        if (Array.isArray(mergedCloseIcon)) {
+          mergedCloseIcon = filterEmpty(mergedCloseIcon)?.[0]
+        }
+        else {
+          mergedCloseIcon = filterEmpty([mergedCloseIcon])?.[0]
+        }
       }
-
       mergedCloseIcon = isVNode(mergedCloseIcon)
-        ? cloneVNode(mergedCloseIcon, {
+        ? createVNode(mergedCloseIcon, {
             ...mergedCloseIcon.props,
             'aria-label': mergedCloseIcon.props?.['aria-label'] ?? contextLocale.close,
             ...ariaOrDataProps,
