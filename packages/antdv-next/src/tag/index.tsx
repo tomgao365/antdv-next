@@ -5,13 +5,18 @@ import type { ClosableType } from '../_util/hooks/useClosable.tsx'
 import type { EmitsType, VueNode } from '../_util/type.ts'
 import type { ComponentBaseProps } from '../config-provider/context.ts'
 import { classNames } from '@v-c/util'
-import { computed, defineComponent, getCurrentInstance, shallowRef } from 'vue'
+import { filterEmpty } from '@v-c/util/dist/props-util'
+import { computed, defineComponent, shallowRef } from 'vue'
 import { isPresetColor, isPresetStatusColor } from '../_util/colors.ts'
 import useClosable, { pickClosable } from '../_util/hooks/useClosable.tsx'
+import { getSlotPropsFnRun } from '../_util/tools.ts'
 import { replaceElement } from '../_util/vueNode.ts'
+import Wave from '../_util/wave'
 import { useConfig } from '../config-provider/context.ts'
 import CheckableTag from './CheckableTag.tsx'
 import useStyle from './style'
+import PresetCmp from './style/presetCmp.ts'
+import StatusCmp from './style/statusCmp.ts'
 
 export type { CheckableTagProps } from './CheckableTag.tsx'
 type SemanticName = 'root'
@@ -20,8 +25,9 @@ export interface TagProps extends ComponentBaseProps {
   color?: LiteralUnion<PresetColorType | PresetStatusColorType>
   /** Advised to use closeIcon instead. */
   closable?: ClosableType
-  closeIcon?: VueNode | boolean
+  closeIcon?: VueNode
   icon?: VueNode
+  onClick?: (e: MouseEvent) => void
   bordered?: boolean
   styles?: Partial<Record<SemanticName, CSSProperties>>
   classes?: Partial<Record<SemanticName, string>>
@@ -35,11 +41,11 @@ export interface TagSlots {
 
 export type TagEmits = EmitsType<{
   close?: (ev: MouseEvent) => void
-  click?: (ev: MouseEvent) => void
 }>
 
 const defaultProps: Partial<TagProps> = {
   bordered: true,
+  closable: undefined,
 }
 const InternalTag = defineComponent<
   TagProps,
@@ -51,13 +57,8 @@ const InternalTag = defineComponent<
     const configContext = useConfig()
     const prefixCls = computed(() => configContext.value.getPrefixCls('tag', props.prefixCls))
     const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
-    const instance = getCurrentInstance()
     const tagRef = shallowRef<HTMLElement>()
     expose({ tagRef })
-
-    const handleInternalClick = (e: MouseEvent) => {
-      emit('click', e)
-    }
 
     const handleCloseClick = (e: MouseEvent) => {
       e.stopPropagation()
@@ -65,7 +66,7 @@ const InternalTag = defineComponent<
     }
 
     const closableInfo = useClosable(
-      pickClosable(computed(() => props as unknown as any)) as any,
+      pickClosable(computed(() => ({ ...props, closeIcon: getSlotPropsFnRun(slots, props, 'closeIcon') }) as unknown as any)) as any,
       pickClosable(computed(() => configContext.value.tag as any)) as any,
       computed(() => {
         return {
@@ -77,8 +78,8 @@ const InternalTag = defineComponent<
             return replaceElement(iconNode, replacement, (originProps) => {
               return {
                 onClick(e: MouseEvent) {
-                  originProps?.onClick(e)
-                  handleInternalClick(e)
+                  originProps?.onClick?.(e)
+                  handleCloseClick(e)
                 },
                 class: classNames(originProps?.class, `${prefixCls.value}-close-icon`),
               }
@@ -96,7 +97,7 @@ const InternalTag = defineComponent<
       const isPreset = isPresetColor(color)
       const isStatus = isPresetStatusColor(color)
       const isInternalColor = isPreset || isStatus
-      const tagStyle: CSSProperties[] = [{
+      const tagStyle: any[] = [{
         backgroundColor: color && !isInternalColor ? color : undefined,
       }, tagContext?.style].filter(Boolean)
 
@@ -116,8 +117,27 @@ const InternalTag = defineComponent<
         cssVarCls.value,
         (attrs as any).class,
       )
-
-      return null
+      const children = filterEmpty(slots?.default?.())[0]
+      const isNeedWave = children.type === 'a' || props.onClick
+      const iconNodes = getSlotPropsFnRun(slots, props, 'icon')
+      const kids = iconNodes
+        ? (
+            <>
+              {iconNodes}
+              {children && <span>{children}</span>}
+            </>
+          )
+        : children
+      const mergedCloseIcon = closableInfo.value?.[1]
+      const tagNode = (
+        <span {...attrs} class={tagClassName} style={tagStyle}>
+          {kids}
+          {mergedCloseIcon}
+          {isPreset && <PresetCmp key="preset" prefixCls={prefixCls.value} />}
+          {isStatus && <StatusCmp key="status" prefixCls={prefixCls.value} />}
+        </span>
+      )
+      return wrapCSSVar(isNeedWave ? <Wave component="Tag">{tagNode}</Wave> : tagNode)
     }
   },
   {

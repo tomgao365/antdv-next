@@ -4,7 +4,6 @@ export default antfu({
   formatters: {
     css: true,
   },
-
   rules: {
     'jsdoc/empty-tags': 0,
     'node/prefer-global/process': 0,
@@ -14,4 +13,11 @@ export default antfu({
   ignores: [
     'packages/icons/src/icons',
   ],
+}, {
+  files: [
+    'playground/**/*',
+  ],
+  rules: {
+    'no-console': 0,
+  },
 })

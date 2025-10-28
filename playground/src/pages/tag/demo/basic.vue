@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { CloseCircleOutlined } from '@antdv-next/icons'
+
 function preventDefault(e: Event) {
   e.preventDefault()
+  console.log('Clicked! But prevent default.')
 }
 </script>
 
@@ -19,6 +22,13 @@ function preventDefault(e: Event) {
     </a>
   </a-tag>
   <a-tag close-icon @close="preventDefault">
+    Prevent Default
+  </a-tag>
+  <a-tag>
+    <template #closeIcon>
+      <CloseCircleOutlined />
+    </template>
+
     Prevent Default
   </a-tag>
 </template>

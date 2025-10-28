@@ -59,7 +59,7 @@ function useClosableConfig(closableCollection?: Ref<ClosableCollection | null>) 
       // TODO
       return false
     }
-    if (closable === undefined || closeIcon === undefined) {
+    if (closable === undefined && closeIcon === undefined) {
       return null
     }
     let closableConfig: ClosableType = {
@@ -146,7 +146,6 @@ export default function useClosable(
             ...ariaOrDataProps,
           })
         : (<span aria-label={contextLocale.close} {...ariaOrDataProps}>{mergedCloseIcon}</span>)
-
       return [true, mergedCloseIcon, closeBtnIsDisabled.value, ariaOrDataProps]
     }
   })
