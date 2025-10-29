@@ -1,4 +1,5 @@
 import type { InjectionKey, Ref } from 'vue'
+import type { TransferLocale as TransferLocaleForEmpty } from '../empty'
 import { computed, defineComponent, inject, provide } from 'vue'
 
 export type LocaleContextProps = Locale & { exist?: boolean }
@@ -27,7 +28,7 @@ export interface Locale {
   // Transfer?: TransferLocale;
   Select?: Record<string, any>
   // Upload?: UploadLocale;
-  // Empty?: TransferLocaleForEmpty;
+  Empty?: TransferLocaleForEmpty
   global?: {
     placeholder?: string
     close?: string

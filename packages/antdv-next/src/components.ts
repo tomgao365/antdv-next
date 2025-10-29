@@ -12,6 +12,8 @@ export type { ButtonColorType, ButtonHTMLType, ButtonProps, ButtonShape, ButtonS
 export { default as ConfigProvider } from './config-provider'
 export { default as Divider } from './divider'
 export type { DividerProps } from './divider'
+export { default as Empty } from './empty'
+export type { EmptyProps } from './empty'
 export { default as Flex } from './flex'
 export type { FlexProps } from './flex'
 export { Col, Row } from './grid'

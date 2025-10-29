@@ -4,6 +4,7 @@ import type { ShowWaveEffect } from '../_util/wave/interface.ts'
 import type { AlertProps } from '../alert'
 import type { BadgeProps } from '../badge'
 import type { ButtonProps } from '../button'
+import type { EmptyProps } from '../empty'
 import type { FlexProps } from '../flex'
 import type { Locale } from '../locale'
 import type { SpaceProps } from '../space'
@@ -159,6 +160,8 @@ export type BadgeConfig = ComponentStyleConfig & Pick<BadgeProps, 'classes' | 's
 
 export type TagConfig = ComponentStyleConfig & Pick<TagProps, 'closeIcon' | 'closable'>
 
+export type EmptyConfig = ComponentStyleConfig & Pick<EmptyProps, 'classes' | 'styles' | 'image'>
+
 export interface ConfigComponentProps {
   space?: SpaceConfig
   button?: ButtonConfig
@@ -169,6 +172,8 @@ export interface ConfigComponentProps {
   badge?: BadgeConfig
   tag?: TagConfig
   layout?: ComponentStyleConfig
+  empty?: EmptyConfig
+
 }
 
 export interface ConfigConsumerProps extends ConfigComponentProps {

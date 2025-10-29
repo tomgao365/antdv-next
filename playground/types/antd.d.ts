@@ -28,5 +28,6 @@ declare module 'vue' {
         ALayoutFooter: typeof import('antdv-next')['LayoutFooter'];
         ALayoutContent: typeof import('antdv-next')['LayoutContent'];
         ALayoutSider: typeof import('antdv-next')['LayoutSider'];
+        AEmpty: typeof import('antdv-next')['Empty'];
     }
 }
