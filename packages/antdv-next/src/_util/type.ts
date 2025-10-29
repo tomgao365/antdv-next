@@ -6,7 +6,11 @@ export type RenderNodeFn<Args extends any[] = any[]> = (...args: Args) => VNodeC
 
 export type VueNode = RenderNodeFn | boolean | string | number | null | undefined | VNode
 
-export type EmitsType<T extends Record<string, any>> = T & {
+export type EmitsArrToEvent<T extends Record<string, any>> = {
+  [K in keyof T]: T[K] extends any[] ? (...args: T[K]) => void : T[K]
+}
+
+export type EmitsType<T extends Record<string, any>> = EmitsArrToEvent<T> & {
   [key: string]: (...args: any[]) => void
 }
 

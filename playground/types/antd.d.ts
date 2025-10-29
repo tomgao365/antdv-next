@@ -23,5 +23,10 @@ declare module 'vue' {
         ABadgeRibbon: typeof import('antdv-next')['Badge']['Ribbon'];
         ATag: typeof import('antdv-next')['Tag'];
         ACheckableTag: typeof import('antdv-next')['CheckableTag'];
+        ALayout: typeof import('antdv-next')['Layout'];
+        ALayoutHeader: typeof import('antdv-next')['LayoutHeader'];
+        ALayoutFooter: typeof import('antdv-next')['LayoutFooter'];
+        ALayoutContent: typeof import('antdv-next')['LayoutContent'];
+        ALayoutSider: typeof import('antdv-next')['LayoutSider'];
     }
 }

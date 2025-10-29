@@ -28,7 +28,7 @@ import type { ComponentToken as GridComponentToken } from '../../grid/style'
 // import type { ComponentToken as ImageComponentToken } from '../../image/style';
 // import type { ComponentToken as InputNumberComponentToken } from '../../input-number/style';
 // import type { ComponentToken as InputComponentToken } from '../../input/style';
-// import type { ComponentToken as LayoutComponentToken } from '../../layout/style';
+import type { ComponentToken as LayoutComponentToken } from '../../layout/style'
 // import type { ComponentToken as ListComponentToken } from '../../list/style';
 // import type { ComponentToken as MentionsComponentToken } from '../../mentions/style';
 // import type { ComponentToken as MenuComponentToken } from '../../menu/style';
@@ -93,7 +93,7 @@ export interface ComponentTokenMap {
   // Image?: ImageComponentToken;
   // Input?: InputComponentToken;
   // InputNumber?: InputNumberComponentToken;
-  // Layout?: LayoutComponentToken;
+  Layout?: LayoutComponentToken
   // List?: ListComponentToken;
   // Mentions?: MentionsComponentToken;
   // Notification?: NotificationComponentToken;

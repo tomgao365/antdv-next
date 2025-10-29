@@ -150,7 +150,7 @@ const InternalBadge = defineComponent<
     return () => {
       const { class: attrClass, style: attrStyle, ...restAttrs } = attrs
       const children = filterEmpty(slots.default?.() ?? [])
-      let livingCount = countCacheRef.value
+      let livingCount: any = countCacheRef.value
       if (typeof livingCount === 'function') {
         livingCount = livingCount()
       }

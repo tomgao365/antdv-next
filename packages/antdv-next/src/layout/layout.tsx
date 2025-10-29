@@ -1,0 +1,150 @@
+import type { ComponentBaseProps } from '../config-provider/context.ts'
+import { classNames } from '@v-c/util'
+import { filterEmpty } from '@v-c/util/dist/props-util'
+import { createVNode, defineComponent, ref } from 'vue'
+import { useBaseConfig, useComponentConfig } from '../config-provider/context.ts'
+import { useLayoutProvider } from './context.ts'
+import useHasSider from './hooks/useHasSider.ts'
+import useStyle from './style'
+
+export interface GeneratorProps {
+  suffixCls?: string
+  tagName: 'header' | 'footer' | 'main' | 'div'
+  displayName: string
+}
+
+export interface BasicProps extends ComponentBaseProps {
+  suffixCls?: string
+  hasSider?: boolean
+}
+
+interface BasicPropsWithTagName extends BasicProps {
+  tagName: 'header' | 'footer' | 'main' | 'div'
+}
+
+function generator({ suffixCls, tagName, displayName }: GeneratorProps) {
+  return (BasicComponent: any) => {
+    return defineComponent<BasicProps>(
+      (props, { attrs, slots }) => {
+        return () => {
+          return (<BasicComponent suffixCls={suffixCls} tagName={tagName} {...props} {...attrs} v-slots={slots} />)
+        }
+      },
+      {
+        name: displayName,
+        inheritAttrs: false,
+      },
+    )
+  }
+}
+
+const Basic = defineComponent<BasicPropsWithTagName>(
+  (props, { attrs, slots }) => {
+    const { prefixCls } = useBaseConfig('layout', props)
+    const [wrapSSR, hashId, cssVarCls] = useStyle(prefixCls)
+
+    return () => {
+      const {
+        suffixCls,
+        tagName,
+        prefixCls: customizePrefixCls,
+      } = props
+      const prefixWithSuffixCls = suffixCls ? `${prefixCls.value}-${suffixCls}` : prefixCls.value
+
+      return wrapSSR(createVNode(tagName, {
+        ...attrs,
+        class: classNames(
+          customizePrefixCls || prefixWithSuffixCls,
+          (attrs as any)?.class,
+          hashId.value,
+          cssVarCls.value,
+        ),
+      }, slots))
+    }
+  },
+)
+
+const BasicLayout = defineComponent<BasicPropsWithTagName>(
+  (props, { slots, attrs }) => {
+    const { direction, prefixCls } = useBaseConfig('layout', props)
+    const compCtx = useComponentConfig('layout')
+    const siders = ref<string[]>([])
+    const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls)
+    const addSider = (id: string) => {
+      siders.value = [...siders.value, id]
+    }
+
+    const removeSider = (id: string) => {
+      siders.value = siders.value.filter(currentId => currentId !== id)
+    }
+
+    useLayoutProvider({
+      siderHook: {
+        addSider,
+        removeSider,
+      },
+    })
+
+    return () => {
+      const {
+        hasSider,
+        rootClass,
+        tagName,
+        suffixCls,
+      } = props
+      const children = filterEmpty(slots?.default?.() || [])
+      const mergedHasSider = useHasSider(siders.value, children, hasSider)
+
+      const classString = classNames(
+        prefixCls.value,
+        {
+          [`${prefixCls.value}-has-sider`]: mergedHasSider,
+          [`${prefixCls.value}-rtl`]: direction.value === 'rtl',
+        },
+        compCtx.value.class,
+        (attrs as any).class,
+        rootClass,
+        hashId.value,
+        cssVarCls.value,
+      )
+
+      return wrapCSSVar(
+        createVNode(tagName, {
+          ...attrs,
+          suffixCls,
+          class: classString,
+          style: [compCtx.value.style, (attrs as any).style],
+        }, {
+          default: () => children,
+        }),
+      )
+    }
+  },
+)
+
+const Layout = generator({
+  tagName: 'div',
+  displayName: 'ALayout',
+})(BasicLayout)
+
+const Header = generator({
+  suffixCls: 'header',
+  tagName: 'header',
+  displayName: 'ALayoutHeader',
+})(Basic)
+
+const Footer = generator({
+  suffixCls: 'footer',
+  tagName: 'footer',
+  displayName: 'ALayoutFooter',
+})(Basic)
+
+const Content = generator({
+  suffixCls: 'content',
+  tagName: 'main',
+  displayName: 'ALayoutContent',
+})(Basic)
+
+export { Content, Footer, Header }
+
+export default Layout

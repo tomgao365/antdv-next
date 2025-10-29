@@ -167,6 +167,7 @@ export interface ConfigComponentProps {
   anchor?: ComponentStyleConfig
   badge?: BadgeConfig
   tag?: TagConfig
+  layout?: ComponentStyleConfig
 }
 
 export interface ConfigConsumerProps extends ConfigComponentProps {
