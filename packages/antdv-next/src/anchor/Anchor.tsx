@@ -303,7 +303,8 @@ const Anchor = defineComponent<
     })
     watch(
       [() => props.direction, () => props.getCurrentAnchor, dependencyListItem, activeLink],
-      () => {
+      async () => {
+        await nextTick()
         updateInk()
       },
       {
