@@ -62,6 +62,18 @@ export interface BaseButtonProps extends ComponentBaseProps {
   _skipSemantic?: boolean
 }
 
+export function convertLegacyProps(
+  type?: LegacyButtonType,
+): Pick<BaseButtonProps, 'danger' | 'type'> {
+  if (type === 'danger') {
+    return { danger: true }
+  }
+  if (type) {
+    return { type }
+  }
+  return {}
+}
+
 export interface ButtonProps extends BaseButtonProps {
   href?: string
   htmlType?: ButtonHTMLType

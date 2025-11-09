@@ -42,5 +42,6 @@ declare module 'vue' {
     ATooltip: typeof import('antdv-next')['Tooltip']
     ASegmented: typeof import('antdv-next')['Segmented']
     APopover: typeof import('antdv-next')['Popover']
+    APopconfirm: typeof import('antdv-next')['Popconfirm']
   }
 }

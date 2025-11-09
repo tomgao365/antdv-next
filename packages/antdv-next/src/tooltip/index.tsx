@@ -9,7 +9,7 @@ import type { VueNode } from '../_util/type.ts'
 import type { ComponentBaseProps } from '../config-provider/context.ts'
 import VcTooltip from '@v-c/tooltip'
 import { clsx } from '@v-c/util'
-import { filterEmpty } from '@v-c/util/dist/props-util'
+import { filterEmpty, removeUndefined } from '@v-c/util/dist/props-util'
 import { getTransitionName } from '@v-c/util/dist/utils/transition'
 import { computed, createVNode, defineComponent, isVNode, shallowRef, watchEffect } from 'vue'
 import { ContextIsolator } from '../_util/ContextIsolator.tsx'
@@ -173,7 +173,9 @@ const InternalTooltip = defineComponent<
     })
     let noTitle = false
     const onInternalOpenChange = (vis: boolean) => {
-      open.value = noTitle ? false : vis
+      if (props.open === undefined) {
+        open.value = noTitle ? false : vis
+      }
       if (!noTitle) {
         emit('openChange', vis)
         emit('update:open', vis)
@@ -227,6 +229,7 @@ const InternalTooltip = defineComponent<
         motion,
         destroyOnHidden,
         openClass,
+        ...restProps
       } = props
       const title = getSlotPropsFnRun(slots, props, 'title')
       const overlay = getSlotPropsFnRun(slots, props, 'overlay')
@@ -266,6 +269,7 @@ const InternalTooltip = defineComponent<
       const content = (
         <VcTooltip
           unique
+          {...removeUndefined(restProps)}
           {...attrs}
           zIndex={zIndex.value}
           showArrow={mergedShowArrow.value}

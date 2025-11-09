@@ -22,6 +22,7 @@ import type { SpinProps } from '../spin'
 import type { StatisticProps } from '../statistic'
 import type { TagProps } from '../tag'
 import type { AliasToken, MapToken, OverrideToken, SeedToken } from '../theme/interface'
+import type { PopconfirmProps } from '../popconfirm'
 import type { TooltipProps } from '../tooltip'
 import type { RenderEmptyHandler } from './defaultRenderEmpty.tsx'
 import { computed, inject, provide, ref } from 'vue'
@@ -204,6 +205,8 @@ export type TooltipConfig = ComponentStyleConfig & Pick<TooltipProps, 'styles' |
 
 export type PopoverConfig = ComponentStyleConfig & Pick<PopoverProps, 'classes' | 'styles' | 'arrow'>
 
+export type PopconfirmConfig = ComponentStyleConfig & Pick<PopconfirmProps, 'classes' | 'styles' | 'arrow'>
+
 export type SegmentedConfig = ComponentStyleConfig & Pick<SegmentedProps, 'classes' | 'styles'>
 
 export interface ConfigComponentProps {
@@ -262,7 +265,7 @@ export interface ConfigComponentProps {
   // tour?: TourConfig;
   tooltip?: TooltipConfig
   popover?: PopoverConfig
-  // popconfirm?: PopconfirmConfig;
+  popconfirm?: PopconfirmConfig
   // upload?: UploadConfig;
   // notification?: NotificationConfig;
   tree?: ComponentStyleConfig

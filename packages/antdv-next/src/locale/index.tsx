@@ -1,5 +1,6 @@
 import type { InjectionKey, Ref } from 'vue'
 import type { TransferLocale as TransferLocaleForEmpty } from '../empty'
+import type { PopconfirmLocale } from '../popconfirm/PurePanel'
 import { computed, defineComponent, inject, provide } from 'vue'
 
 export type LocaleContextProps = Locale & { exist?: boolean }
@@ -24,7 +25,7 @@ export interface Locale {
   // Table?: TableLocale;
   // Modal?: ModalLocale;
   // Tour?: TourLocale;
-  // Popconfirm?: PopconfirmLocale;
+  Popconfirm?: PopconfirmLocale
   // Transfer?: TransferLocale;
   Select?: Record<string, any>
   // Upload?: UploadLocale;
