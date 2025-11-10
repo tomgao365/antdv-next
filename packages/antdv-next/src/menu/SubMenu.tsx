@@ -9,9 +9,8 @@ import { useZIndex } from '../_util/hooks/useZIndex.ts'
 import { getSlotPropsFnRun } from '../_util/tools.ts'
 import { useMenuContext, useMenuContextProvider } from './MenuContext.tsx'
 
-export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children' | 'label'> {
+export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'label' | 'children'> {
   title?: VueNode
-  children?: VueNode
 }
 
 export interface SubMenuSlots {
@@ -44,7 +43,7 @@ const SubMenu = defineComponent<
     return () => {
       const { popupClassName, theme: customTheme } = props
 
-      const { inlineCollapsed, prefixCls, theme: contextTheme, classes, styles } = menuContext.value
+      const { inlineCollapsed, prefixCls, theme: contextTheme, classes, styles = {} as any } = menuContext.value
       let titleNode: any
       const title = getSlotPropsFnRun(slots, props, 'title')
       const icon = getSlotPropsFnRun(slots, props, 'icon')
@@ -63,7 +62,7 @@ const SubMenu = defineComponent<
           <>
             {
               createVNode(icon, {
-                class: clsx(`${prefixCls}-item-icon`, classes.itemIcon),
+                class: clsx(`${prefixCls}-item-icon`, classes?.itemIcon),
                 style: styles.itemIcon,
               })
             }
@@ -75,17 +74,16 @@ const SubMenu = defineComponent<
         <VcSubMenu
           {...omit(props, ['icon'])}
           title={titleNode}
-          classNames={{
-            list: classes.subMenu?.list,
+          classes={{
+            list: classes?.subMenu?.list,
             listTitle: classes?.subMenu?.itemTitle,
           }}
           styles={{
             list: styles?.subMenu?.list,
             listTitle: styles?.subMenu?.itemTitle,
-
           }}
           popupClassName={
-            clsx(prefixCls, popupClassName, classes.popup?.root, `${prefixCls}-${customTheme || contextTheme}`)
+            clsx(prefixCls, popupClassName, classes?.popup?.root, `${prefixCls}-${customTheme || contextTheme}`)
           }
           popupStyle={{
             zIndex: zIndex.value,

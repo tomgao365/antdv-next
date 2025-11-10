@@ -1,4 +1,4 @@
-import type { MenuProps as VcMenuProps } from '@v-c/menu'
+import type { MenuInfo, MenuItemProps, RenderIconInfo, SelectInfo, MenuProps as VcMenuProps } from '@v-c/menu'
 import type { CSSProperties, SlotsType } from 'vue'
 import type { SemanticClassNames, SemanticStyles } from '../_util/hooks'
 import type { VueNode } from '../_util/type.ts'
@@ -10,7 +10,7 @@ import VcMenu from '@v-c/menu'
 import { clsx } from '@v-c/util'
 import { filterEmpty } from '@v-c/util/dist/props-util'
 import { omit } from 'es-toolkit'
-import { computed, createVNode, defineComponent, isVNode } from 'vue'
+import { computed, createVNode, defineComponent, isVNode, shallowRef } from 'vue'
 import { useMergeSemantic, useToArr, useToProps } from '../_util/hooks'
 import initCollapseMotion from '../_util/motion.ts'
 import { toPropsRefs } from '../_util/tools.ts'
@@ -38,6 +38,9 @@ const omitPropKeys = [
   'overflowedIndicatorPopupClassName',
   'classes',
   'styles',
+  'itemIcon',
+  'labelRender',
+  'extraRender',
 ] as const
 const MENU_COMPONENTS: any = {
   item: MenuItem,
@@ -69,21 +72,23 @@ export type MenuStylesType
   = | MenuStylesSchemaType
     | ((info: { props: MenuProps }) => MenuStylesSchemaType)
 
-export interface MenuProps extends
-  Omit<
-    VcMenuProps,
-    'items'
-    | '_internalComponents'
-    | 'classNames'
-    | 'styles'
-    | 'activeKey'
-    | 'defaultActiveFirst'
-    | 'onClick'
-    | 'onDeselect'
-    | 'onSelect'
-    | 'onOpenChange'
-    | 'rootClassName'
-  > {
+export interface MenuProps extends Omit<
+  VcMenuProps,
+  'items'
+  | '_internalComponents'
+  | 'classes'
+  | 'styles'
+  | 'activeKey'
+  | 'defaultActiveFirst'
+  | 'onClick'
+  | 'onDeselect'
+  | 'onSelect'
+  | 'onOpenChange'
+  | 'rootClass'
+  | 'labelRender'
+  | 'extraRender'
+  | 'itemIcon'
+> {
   theme?: MenuTheme
   inlineIndent?: number
 
@@ -98,7 +103,9 @@ export interface MenuProps extends
   classes?: MenuClassNamesType
   styles?: MenuStylesType
   rootClass?: string
-
+  labelRender?: (item: ItemType) => any
+  extraRender?: (item: ItemType) => any
+  itemIcon?: (props: MenuItemProps & RenderIconInfo) => any
 }
 
 type InternalMenuProps = MenuProps
@@ -107,16 +114,21 @@ type InternalMenuProps = MenuProps
   }
 
 export interface MenuEmits {
-  click: VcMenuProps['onClick']
-  select: VcMenuProps['onSelect']
-  deselect: VcMenuProps['onDeselect']
-  openChange: VcMenuProps['onOpenChange']
-  [key: string]: any
+  'click': (info: MenuInfo) => void
+  'select': (info: SelectInfo) => void
+  'deselect': (info: SelectInfo) => void
+  'openChange': (openKeys: string[]) => void
+  'update:openKeys': (openKeys: string[]) => void
+  'update:selectedKeys': (selectedKeys: string[]) => void
+  [key: string]: (...args: any[]) => void
 }
 
 export interface MenuSlots {
   default: () => any
   expandIcon: () => any
+  labelRender?: (item: ItemType) => any
+  extraRender?: (item: ItemType) => any
+  itemIcon?: (props: MenuItemProps & RenderIconInfo) => any
 }
 
 const defaults = {
@@ -128,7 +140,7 @@ const InternalMenu = defineComponent<
   string,
   SlotsType<MenuSlots>
 >(
-  (props = defaults, { slots, emit, attrs }) => {
+  (props = defaults, { slots, emit, attrs, expose }) => {
     const override = useOverrideContext()
     const overrideObj = computed(() => {
       if (!override?.value) {
@@ -226,9 +238,14 @@ const InternalMenu = defineComponent<
       theme: props.theme,
       mode: mergedMode.value,
       disableMenuItemTitleTooltip: props._internalDisableMenuItemTitleTooltip,
-      classNames: mergedClassNames.value as MenuContextProps['classes'],
+      classes: mergedClassNames.value as MenuContextProps['classes'],
       styles: mergedStyles.value as MenuContextProps['styles'],
     }))
+
+    const menuRef = shallowRef<any>()
+    expose({
+      menu: menuRef,
+    })
     return () => {
       // ====================== ExpandIcon ========================
       const expandIcon = slots?.expandIcon ?? props?.expandIcon
@@ -261,8 +278,11 @@ const InternalMenu = defineComponent<
         rootClass,
       } = props
       const restProps = omit(props, omitPropKeys)
-      const passedProps = omit(restProps, ['collapsedWidth'])
+      const passedProps = omit(restProps, ['collapsedWidth', 'rootClass', 'style', 'class'])
       const menuClassName = clsx(`${prefixCls.value}-${theme}`, contextClassName.value, (attrs as any).class)
+      const itemIcon = slots?.itemIcon ?? props?.itemIcon
+      const labelRender = slots?.labelRender ?? props?.labelRender
+      const extraRender = slots?.extraRender ?? props?.extraRender
 
       // ========================= Render ==========================
       return (
@@ -278,17 +298,16 @@ const InternalMenu = defineComponent<
                   overflowedIndicatorPopupClassName,
                 )
               }
-              classNames={{
+              classes={{
                 list: mergedClassNames.value?.list,
                 listTitle: mergedClassNames.value?.itemTitle,
-              }}
+              } as any}
               styles={{
                 list: mergedStyles.value?.list,
                 listTitle: mergedStyles.value?.itemTitle,
               } as any}
               mode={mergedMode.value}
               selectable={mergedSelectable.value}
-              onClick={onItemClick}
               {...passedProps}
               inlineCollapsed={mergedInlineCollapsed.value as any}
               style={{
@@ -296,12 +315,13 @@ const InternalMenu = defineComponent<
                 ...contextStyle.value,
                 ...(attrs as any).style,
               }}
+              ref={menuRef as any}
               class={menuClassName}
               prefixCls={prefixCls.value}
               direction={direction.value}
               defaultMotions={defaultMotions}
               expandIcon={mergedExpandIcon}
-              rootClassName={clsx(
+              rootClass={clsx(
                 rootClass,
                 hashId.value,
                 overrideObj?.value?.rootClass,
@@ -309,12 +329,32 @@ const InternalMenu = defineComponent<
                 rootCls.value,
                 mergedClassNames.value?.root,
               )}
+              onClick={onItemClick}
+              onDeselect={(info) => {
+                emit('deselect', info)
+                emit('update:selectedKeys', info.selectedKeys)
+              }}
+              onSelect={(info) => {
+                emit('select', info)
+                emit('update:selectedKeys', info.selectedKeys)
+              }}
+              onOpenChange={(...args) => {
+                emit('openChange', ...args)
+                emit('update:openKeys', ...args)
+              }}
+              itemIcon={itemIcon}
+              labelRender={labelRender as any}
+              extraRender={extraRender as any}
               _internalComponents={MENU_COMPONENTS}
             />
           </MenuContextProvider>
         </OverrideProvider>
       )
     }
+  },
+  {
+    name: 'InternalMenu',
+    inheritAttrs: false,
   },
 )
 

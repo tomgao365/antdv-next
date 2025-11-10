@@ -1,4 +1,4 @@
-import type { MenuItemProps as VcMenuItemProps } from '@v-c/menu'
+import type { MenuItemType } from '@v-c/menu'
 import type { SlotsType } from 'vue'
 import type { EmptyEmit, VueNode } from '../_util/type.ts'
 import type { TooltipProps } from '../tooltip'
@@ -13,16 +13,29 @@ import { useSiderCtx } from '../layout/Sider.tsx'
 import Tooltip from '../tooltip'
 import { useMenuContext } from './MenuContext.tsx'
 
-export interface MenuItemProps extends VcMenuItemProps {
+export interface MenuItemProps extends MenuItemType {
   icon?: VueNode
-  dander?: boolean
+  danger?: boolean
   title?: VueNode
+  /** @private Internal filled key. Do not set it directly */
+  eventKey?: string
+
+  /** @private Do not use. Private warning empty usage */
+  warnKey?: boolean
+
+  /** @deprecated No place to use this. Should remove */
+  attribute?: Record<string, string>
+
+  onKeyDown?: (e: KeyboardEvent) => void
+  onFocus?: (e: FocusEvent) => void
+  role?: string
 }
 
 export interface MenuItemSlots {
   default: () => any
   icon: () => any
   title: () => any
+  extra: () => any
 }
 
 const MenuItem = defineComponent<
@@ -38,7 +51,7 @@ const MenuItem = defineComponent<
       const extra = getSlotPropsFnRun(slots, props, 'extra')
       const icon = getSlotPropsFnRun(slots, props, 'icon')
       const title = getSlotPropsFnRun(slots, props, 'title')
-      const { dander } = props
+      const { danger } = props
       const { prefixCls, firstLevel, direction, disableMenuItemTitleTooltip, inlineCollapsed: isInlineCollapsed, styles, classes } = menuContext.value
       const children = filterEmpty(slots?.default?.())
       const renderItemChildren = (inlineCollapsed: boolean) => {
@@ -89,11 +102,11 @@ const MenuItem = defineComponent<
       let returnNode = (
         <Item
           {...pureAttrs(attrs) as any}
-          {...omit(props, ['title', 'icon', 'dander'])}
+          {...omit(props, ['title', 'icon', 'danger'])}
           class={clsx(
             firstLevel ? classes.item : classes?.subMenu?.item,
             {
-              [`${prefixCls}-item-dander`]: !!dander,
+              [`${prefixCls}-item-danger`]: !!danger,
               [`${prefixCls}-item-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
             },
             (attrs as any).class,
@@ -103,7 +116,7 @@ const MenuItem = defineComponent<
         >
           {
             createVNode(icon, {
-              class: clsx(`${prefixCls}-item-icon`, firstLevel ? classes.itemIcon : classes?.subMenu?.itemIcon),
+              class: clsx(`${prefixCls}-item-icon`, firstLevel ? classes?.itemIcon : classes?.subMenu?.itemIcon),
               style: firstLevel ? styles.itemIcon : styles?.subMenu?.itemIcon,
             })
           }
