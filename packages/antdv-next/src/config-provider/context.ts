@@ -28,6 +28,7 @@ import type { StatisticProps } from '../statistic'
 import type { TagProps } from '../tag'
 import type { AliasToken, MapToken, OverrideToken, SeedToken } from '../theme/interface'
 import type { TooltipProps } from '../tooltip'
+import type { TourProps } from '../tour/interface.ts'
 import type { RenderEmptyHandler } from './defaultRenderEmpty.tsx'
 import { computed, inject, provide, ref } from 'vue'
 
@@ -221,8 +222,9 @@ export type PopconfirmConfig = ComponentStyleConfig & Pick<PopconfirmProps, 'cla
 
 export type SegmentedConfig = ComponentStyleConfig & Pick<SegmentedProps, 'classes' | 'styles'>
 
-export type MenuConfig = ComponentStyleConfig
-  & Pick<MenuProps, 'expandIcon' | 'classes' | 'styles'>
+export type MenuConfig = ComponentStyleConfig & Pick<MenuProps, 'expandIcon' | 'classes' | 'styles'>
+
+export type TourConfig = ComponentStyleConfig & Pick<TourProps, 'closeIcon' | 'classes' | 'styles'>
 
 export interface ConfigComponentProps {
   // input?: InputConfig;
@@ -277,7 +279,7 @@ export interface ConfigComponentProps {
   // tabs?: TabsConfig;
   timeline?: ComponentStyleConfig
   // timePicker?: TimePickerConfig;
-  // tour?: TourConfig;
+  tour?: TourConfig
   tooltip?: TooltipConfig
   popover?: PopoverConfig
   popconfirm?: PopconfirmConfig

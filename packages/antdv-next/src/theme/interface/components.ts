@@ -57,7 +57,7 @@ import type { ComponentToken as StatisticComponentToken } from '../../statistic/
 import type { ComponentToken as TagComponentToken } from '../../tag/style'
 import type { ComponentToken as TimelineComponentToken } from '../../timeline/style'
 import type { ComponentToken as TooltipComponentToken } from '../../tooltip/style'
-// import type { ComponentToken as TourComponentToken } from '../../tour/style';
+import type { ComponentToken as TourComponentToken } from '../../tour/style'
 // import type { ComponentToken as TransferComponentToken } from '../../transfer/style';
 // import type { ComponentToken as TreeSelectComponentToken } from '../../tree-select/style';
 // import type { ComponentToken as TreeComponentToken } from '../../tree/style';
@@ -128,7 +128,7 @@ export interface ComponentTokenMap {
   // Table?: TableComponentToken;
   Space?: SpaceComponentToken
   // Progress?: ProgressComponentToken;
-  // Tour?: TourComponentToken;
+  Tour?: TourComponentToken
   QRCode?: QRCodeComponentToken
   // App?: AppComponentToken;
   //
