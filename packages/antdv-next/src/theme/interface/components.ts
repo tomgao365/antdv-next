@@ -2,7 +2,7 @@ import type { ComponentToken as WaveToken } from '../../_util/wave/style'
 import type { ComponentToken as AffixComponentToken } from '../../affix/style'
 import type { ComponentToken as AlertComponentToken } from '../../alert/style'
 import type { ComponentToken as AnchorComponentToken } from '../../anchor/style'
-// import type { ComponentToken as AppComponentToken } from '../../app/style';
+import type { ComponentToken as AppComponentToken } from '../../app/style'
 // import type { ComponentToken as AvatarComponentToken } from '../../avatar/style';
 // import type { ComponentToken as BackTopComponentToken } from '../../back-top/style'
 import type { ComponentToken as BadgeComponentToken } from '../../badge/style'
@@ -34,7 +34,7 @@ import type { ComponentToken as LayoutComponentToken } from '../../layout/style'
 import type { ComponentToken as MenuComponentToken } from '../../menu/style'
 // import type { ComponentToken as MessageComponentToken } from '../../message/style';
 // import type { ComponentToken as ModalComponentToken } from '../../modal/style';
-// import type { ComponentToken as NotificationComponentToken } from '../../notification/style';
+import type { ComponentToken as NotificationComponentToken } from '../../notification/style'
 // import type { ComponentToken as PaginationComponentToken } from '../../pagination/style';
 import type { ComponentToken as PopconfirmComponentToken } from '../../popconfirm/style'
 import type { ComponentToken as PopoverComponentToken } from '../../popover/style'
@@ -96,7 +96,7 @@ export interface ComponentTokenMap {
   Layout?: LayoutComponentToken
   // List?: ListComponentToken;
   // Mentions?: MentionsComponentToken;
-  // Notification?: NotificationComponentToken;
+  Notification?: NotificationComponentToken
   // Pagination?: PaginationComponentToken;
   Popover?: PopoverComponentToken
   Popconfirm?: PopconfirmComponentToken
@@ -130,7 +130,7 @@ export interface ComponentTokenMap {
   // Progress?: ProgressComponentToken;
   Tour?: TourComponentToken
   QRCode?: QRCodeComponentToken
-  // App?: AppComponentToken;
+  App?: AppComponentToken
   //
   /** @private Internal TS definition. Do not use. */
   Wave?: WaveToken

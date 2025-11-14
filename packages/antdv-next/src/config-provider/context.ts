@@ -12,10 +12,10 @@ import type { DescriptionsProps } from '../descriptions'
 import type { DividerProps } from '../divider'
 import type { EmptyProps } from '../empty'
 import type { FlexProps } from '../flex'
-import type { FloatButtonProps } from '../float-button/FloatButton'
-import type { FloatButtonGroupProps } from '../float-button/FloatButtonGroup'
+import type { FloatButtonGroupProps, FloatButtonProps } from '../float-button'
 import type { Locale } from '../locale'
-import type { MenuProps } from '../menu/menu.tsx'
+import type { MenuProps } from '../menu'
+import type { ArgsProps as NotificationProps } from '../notification'
 import type { PopconfirmProps } from '../popconfirm'
 import type { PopoverProps } from '../popover'
 import type { QRCodeProps } from '../qrcode'
@@ -28,8 +28,8 @@ import type { StatisticProps } from '../statistic'
 import type { TagProps } from '../tag'
 import type { AliasToken, MapToken, OverrideToken, SeedToken } from '../theme/interface'
 import type { TooltipProps } from '../tooltip'
-import type { TourProps } from '../tour/interface.ts'
-import type { RenderEmptyHandler } from './defaultRenderEmpty.tsx'
+import type { TourProps } from '../tour'
+import type { RenderEmptyHandler } from './defaultRenderEmpty'
 import { computed, inject, provide, ref } from 'vue'
 
 export const defaultPrefixCls = 'ant'
@@ -225,6 +225,9 @@ export type SegmentedConfig = ComponentStyleConfig & Pick<SegmentedProps, 'class
 export type MenuConfig = ComponentStyleConfig & Pick<MenuProps, 'expandIcon' | 'classes' | 'styles'>
 
 export type TourConfig = ComponentStyleConfig & Pick<TourProps, 'closeIcon' | 'classes' | 'styles'>
+
+export type NotificationConfig = ComponentStyleConfig
+  & Pick<NotificationProps, 'closeIcon' | 'classes' | 'styles'>
 
 export interface ConfigComponentProps {
   // input?: InputConfig;
