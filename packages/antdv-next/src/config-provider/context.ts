@@ -15,6 +15,7 @@ import type { EmptyProps } from '../empty'
 import type { FlexProps } from '../flex'
 import type { FloatButtonGroupProps, FloatButtonProps } from '../float-button'
 import type { Locale } from '../locale'
+import type { MasonryProps } from '../masonry/Masonry.tsx'
 import type { MenuProps } from '../menu'
 import type { ArgsProps as NotificationProps } from '../notification'
 import type { PopconfirmProps } from '../popconfirm'
@@ -231,6 +232,8 @@ export type NotificationConfig = ComponentStyleConfig & Pick<NotificationProps, 
 
 export type BreadcrumbConfig = ComponentStyleConfig & Pick<BreadcrumbProps, 'classes' | 'styles' | 'separator'>
 
+export type MasonryConfig = ComponentStyleConfig & Pick<MasonryProps, 'classes' | 'styles'>
+
 export interface ConfigComponentProps {
   // input?: InputConfig;
   // textArea?: TextAreaConfig;
@@ -267,6 +270,7 @@ export interface ConfigComponentProps {
   result?: ResultConfig
   // slider?: SliderConfig;
   breadcrumb?: BreadcrumbConfig
+  masonry?: MasonryConfig
   menu?: MenuConfig
   checkbox?: ComponentStyleConfig
   descriptions?: DescriptionsConfig

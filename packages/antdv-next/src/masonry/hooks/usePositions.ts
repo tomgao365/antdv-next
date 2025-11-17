@@ -42,7 +42,7 @@ export default function usePositions(
       columnHeights[targetColumnIndex]! += itemHeight + verticalGutter.value
     }
 
-    return [itemPositions, Math.max(0, Math.max(...columnHeights) - verticalGutter.value)]
+    return [itemPositions, Math.max(0, Math.max(...columnHeights) - verticalGutter.value)] as const
   })
   // ====================== Return ======================
   const orderItemPositions = computed(() => autoOrder.value[0]!)

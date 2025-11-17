@@ -1,3 +1,4 @@
+import type { Key } from '@v-c/util/dist/type'
 import type { CSSProperties } from 'vue'
 import type { VueNode } from '../_util/type.ts'
 import type { MasonryProps } from './Masonry.tsx'
@@ -7,11 +8,13 @@ import { filterEmpty } from '@v-c/util/dist/props-util'
 import { defineComponent } from 'vue'
 
 export interface MasonryItemType {
-  key: VueNode
+  key: Key
   column?: number
   height?: number
   children?: VueNode
   data: any
+  class?: string
+  style?: CSSProperties
 }
 
 interface MasonryItemProps extends Pick<MasonryProps, 'itemRender'> {
