@@ -168,8 +168,8 @@ export const NoFormStyle = defineComponent<{
 
 export interface FormItemProviderProps {
   fieldId: Ref<string | undefined>
-  triggerFieldChange: () => void
-  triggerFieldBlur: () => void
+  triggerChange: () => void
+  triggerBlur: () => void
   clearValidate: () => void
 }
 

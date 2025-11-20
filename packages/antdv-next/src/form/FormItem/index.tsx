@@ -293,6 +293,7 @@ const InternalFormItem = defineComponent<
     }
 
     const onFieldChange = () => {
+      updateMeta({ touched: true })
       triggerValidate('change')
     }
 
@@ -389,8 +390,8 @@ const InternalFormItem = defineComponent<
     // }
     useFormItemProvider({
       fieldId,
-      triggerFieldBlur: onFieldBlur,
-      triggerFieldChange: onFieldChange,
+      triggerBlur: onFieldBlur,
+      triggerChange: onFieldChange,
       clearValidate,
     })
     return () => {
