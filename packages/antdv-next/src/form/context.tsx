@@ -6,10 +6,21 @@ import type { FormLayout, FormSemanticName, RequiredMark } from './Form'
 import type { FeedbackIcons, ValidateStatus } from './FormItem'
 import type { ColPropsWithClass } from './FormItemLabel.tsx'
 import type { FormLabelAlign } from './interface'
-import type { Meta, NamePath } from './types.ts'
+import type { InternalNamePath, Meta, NamePath, Rule, ValidateMessages } from './types.ts'
 import { computed, defineComponent, inject, provide, ref } from 'vue'
 
 /** Form Context. Set top form style and pass to Form Item usage. */
+export interface FormFieldRegister {
+  namePath: () => InternalNamePath
+  getValue: () => any
+  getMeta: () => Meta
+  rules?: () => Rule[]
+  validateRules: (options?: Record<string, any>) => Promise<void>
+  resetField: () => void
+  clearValidate: () => void
+  setFieldState?: (state: Partial<Meta> & { errors?: any[], warnings?: any[], value?: any }) => void
+}
+
 export interface FormContextProps {
   classes?: SemanticClassNames<FormSemanticName>
   styles?: SemanticStyles<FormSemanticName>
@@ -21,13 +32,20 @@ export interface FormContextProps {
   labelCol?: ColPropsWithClass
   wrapperCol?: ColPropsWithClass
   requiredMark?: RequiredMark
-  // itemRef: (name: (string | number)[]) => (node: React.ReactElement) => void;
-  // form?: FormInstance;
   feedbackIcons?: FeedbackIcons
   model?: Record<string, any>
+  rules?: Record<string, Rule[]>
   validateTrigger?: string | string[] | false
+  validateMessages?: ValidateMessages
   preserve?: boolean
   clearOnDestroy?: boolean
+  addField?: (eventKey: string, field: FormFieldRegister) => void
+  removeField?: (eventKey: string) => void
+  onValidate?: (name: InternalNamePath, status: boolean, errors: any[] | null) => void
+  triggerValuesChange?: (namePath: InternalNamePath, value: any) => void
+  triggerFieldsChange?: (namePathList?: InternalNamePath[]) => void
+  getFieldValue?: (namePath: InternalNamePath) => any
+  getFieldsValue?: (nameList?: InternalNamePath[] | true) => any
 }
 
 const FormContextKey = Symbol('FormContextKey')
