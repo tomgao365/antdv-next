@@ -21,12 +21,17 @@ export interface RadioGroupProps extends AbstractCheckboxGroupProps {
 }
 
 export interface RadioGroupEmits {
-  change: (e: RadioChangeEvent) => void
-  mouseenter: (e: MouseEvent) => void
-  mouseleave: (e: MouseEvent) => void
-  focus: (e: FocusEvent) => void
-  blur: (e: FocusEvent) => void
+  'change': (e: RadioChangeEvent) => void
+  'mouseenter': (e: MouseEvent) => void
+  'mouseleave': (e: MouseEvent) => void
+  'focus': (e: FocusEvent) => void
+  'blur': (e: FocusEvent) => void
+  'update:value': (value: any) => void
   [key: string]: (...args: any[]) => void
+}
+
+export interface RadioGroupSlots {
+  default: () => any
 }
 
 export interface RadioGroupContextProps {

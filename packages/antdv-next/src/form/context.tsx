@@ -170,6 +170,7 @@ export interface FormItemProviderProps {
   fieldId: Ref<string | undefined>
   triggerChange: () => void
   triggerBlur: () => void
+  triggerFocus: () => void
   clearValidate: () => void
 }
 
@@ -178,6 +179,19 @@ export function useFormItemProvider(value: FormItemProviderProps) {
   provide(FormItemProviderContextKey, value)
 }
 
-export function useFormItemContext() {
+export function useFormItemContext(rest = false) {
+  if (rest) {
+    useFormItemProviderRest()
+  }
   return inject(FormItemProviderContextKey, undefined)
+}
+
+export function useFormItemProviderRest() {
+  return provide(FormItemProviderContextKey, {
+    fieldId: ref(undefined),
+    triggerChange: () => {},
+    triggerBlur: () => {},
+    clearValidate: () => {},
+    triggerFocus: () => {},
+  })
 }

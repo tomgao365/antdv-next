@@ -8,6 +8,7 @@ import type { AnchorProps } from '../anchor'
 import type { BadgeProps } from '../badge'
 import type { BreadcrumbProps } from '../breadcrumb/Breadcrumb.tsx'
 import type { ButtonProps } from '../button'
+import type { CheckboxProps } from '../checkbox'
 import type { CollapseProps } from '../collapse'
 import type { DescriptionsProps } from '../descriptions'
 import type { DividerProps } from '../divider'
@@ -22,6 +23,7 @@ import type { ArgsProps as NotificationProps } from '../notification'
 import type { PopconfirmProps } from '../popconfirm'
 import type { PopoverProps } from '../popover'
 import type { QRCodeProps } from '../qrcode'
+import type { RadioProps } from '../radio/interface.ts'
 import type { ResultProps } from '../result'
 import type { SegmentedProps } from '../segmented'
 import type { SkeletonProps } from '../skeleton'
@@ -246,6 +248,9 @@ export type FormConfig = ComponentStyleConfig
     | 'classes'
     | 'styles'
   >
+export type RadioConfig = ComponentStyleConfig & Pick<RadioProps, 'classes' | 'styles'>
+
+export type CheckboxConfig = ComponentStyleConfig & Pick<CheckboxProps, 'classes' | 'styles'>
 
 export interface ConfigComponentProps {
   // input?: InputConfig;
@@ -285,11 +290,11 @@ export interface ConfigComponentProps {
   breadcrumb?: BreadcrumbConfig
   masonry?: MasonryConfig
   menu?: MenuConfig
-  checkbox?: ComponentStyleConfig
+  checkbox?: CheckboxConfig
   descriptions?: DescriptionsConfig
   empty?: EmptyConfig
   badge?: BadgeConfig
-  radio?: ComponentStyleConfig
+  radio?: RadioConfig
   rate?: ComponentStyleConfig
   switch?: ComponentStyleConfig
   // transfer?: TransferConfig;

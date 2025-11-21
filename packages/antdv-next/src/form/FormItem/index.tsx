@@ -301,6 +301,11 @@ const InternalFormItem = defineComponent<
       triggerValidate('change')
     }
 
+    const onFieldFoucs = () => {
+      updateMeta({ touched: true })
+      triggerValidate('focus')
+    }
+
     watch(
       fieldValue,
       (val, prev) => {
@@ -393,6 +398,7 @@ const InternalFormItem = defineComponent<
       triggerBlur: onFieldBlur,
       triggerChange: onFieldChange,
       clearValidate,
+      triggerFocus: onFieldFoucs,
     })
     return () => {
       const children: any = filterEmpty(slots.default?.() ?? [])
