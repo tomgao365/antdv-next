@@ -18,7 +18,7 @@ export type { CheckboxEmits, CheckboxGroupEmits, CheckboxGroupProps, CheckboxGro
 export { default as Collapse } from './collapse'
 export type { CollapseProps } from './collapse'
 export { default as ColorPicker } from './color-picker'
-export type { Color, ColorPickerEmits, ColorPickerProps, ColorPickerSlots } from './color-picker'
+export type { Color, ColorPickerEmits, ColorPickerProps, ColorPickerSlots, ColorValueType } from './color-picker'
 export { default as ConfigProvider } from './config-provider'
 export { default as Descriptions } from './descriptions'
 export type { DescriptionsItemType, DescriptionsProps, DescriptionsSlots } from './descriptions'

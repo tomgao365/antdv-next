@@ -11,7 +11,7 @@ interface DragStartInfo { rawValues: number[], draggingIndex: number, draggingVa
 interface DragChangeInfo { rawValues: number[], deleteIndex: number, draggingIndex: number, draggingValue: number }
 
 export interface GradientColorSliderProps
-  extends Omit<BaseSliderProps, 'value' | 'onChange' | 'onChangeComplete' | 'type'> {
+  extends Omit<BaseSliderProps, 'value' | 'onChange' | 'onChangeComplete' | 'type' | 'color'> {
   value: number[]
   onChange?: (value: number[]) => void
   onChangeComplete: (value: number[]) => void
@@ -27,6 +27,7 @@ export interface GradientColorSliderProps
 
   // Key event
   onKeyDelete?: (index: number) => void
+  color: BaseSliderProps['color'] | null
 }
 
 export const GradientColorSlider = defineComponent<
@@ -105,7 +106,6 @@ export const GradientColorSlider = defineComponent<
         type: _type,
         ...sliderRestProps
       } = restProps
-
       return (
         <UnstableProvider value={{ onDragStart, onDragChange }}>
           <Slider

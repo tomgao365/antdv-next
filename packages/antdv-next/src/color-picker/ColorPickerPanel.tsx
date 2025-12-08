@@ -1,11 +1,14 @@
 import type { EmptyEmit } from '../_util/type.ts'
 import type { AggregationColor } from './color'
 import type { ColorPickerProps, ModeType } from './interface'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import Divider from '../divider'
 import PanelPicker from './components/PanelPicker'
 import PanelPresets from './components/PanelPresets'
-import { PanelPickerContextProvider, PanelPresetsContextProvider } from './context'
+import {
+  usePanelPickerProvider,
+  usePanelPresetsProvider,
+} from './context'
 
 export interface ColorPickerPanelProps extends ColorPickerProps {
   mode: ModeType
@@ -32,16 +35,13 @@ export default defineComponent<
 
     const innerPanel = () => (
       <div class={`${colorPickerPanelPrefix}-content`}>
-        <PanelPickerContextProvider {...props as any}>
-          <PanelPicker />
-        </PanelPickerContextProvider>
+        <PanelPicker />
         {Array.isArray(props.presets) ? <Divider /> : null}
-        <PanelPresetsContextProvider {...props as any}>
-          <PanelPresets />
-        </PanelPresetsContextProvider>
+        <PanelPresets />
       </div>
     )
-
+    usePanelPresetsProvider(computed(() => props as any))
+    usePanelPickerProvider(computed(() => props as any))
     return () => {
       return (
         <div class={colorPickerPanelPrefix}>

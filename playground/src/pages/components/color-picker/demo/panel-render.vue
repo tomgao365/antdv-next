@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cyan, generate, green, presetPalettes, red } from '@ant-design/colors'
 import { theme } from 'antdv-next'
-import { computed, h, shallowRef } from 'vue'
+import { computed, shallowRef } from 'vue'
 
 const { useToken } = theme
 const { token } = useToken()
@@ -23,51 +23,42 @@ const presets = computed<any[]>(() => genPresets({
   green,
   cyan,
 }))
-
-function renderWithTitle(panel: any) {
-  return h('div', { class: 'custom-panel' }, [
-    h('div', {
-      style: {
-        fontSize: 12,
-        color: 'rgba(0, 0, 0, 0.88)',
-        lineHeight: '20px',
-        marginBottom: 8,
-      },
-    }, 'Color Picker'),
-    panel,
-  ])
-}
-
-function horizontalPanelRender(_: any, { components }: any) {
-  const { Picker, Presets } = components
-  return h(
-    'a-row',
-    { justify: 'space-between', wrap: false },
-    {
-      default: () => [
-        h('a-col', { span: 12 }, { default: () => [h(Presets)] }),
-        h('a-divider', { type: 'vertical', style: { height: 'auto' } }),
-        h('a-col', { flex: 'auto' }, { default: () => [h(Picker)] }),
-      ],
-    },
-  )
-}
 </script>
 
 <template>
   <a-space vertical>
     <a-space>
       <span>Add title:</span>
-      <a-color-picker v-model:value="color" :panel-render="renderWithTitle" />
+      <a-color-picker v-model:value="color">
+        <template #panelRender="{ panel }">
+          <div class="custom-panel">
+            <div style="font-size: 12px;color: rgba(0,0,0,.88);line-height: 20px;margin-bottom: 8px">
+              Color Picker
+            </div>
+            <component :is="panel" />
+          </div>
+        </template>
+      </a-color-picker>
     </a-space>
     <a-space>
       <span>Horizontal layout:</span>
       <a-color-picker
         v-model:value="layoutColor"
-        :styles="{ popupOverlayInner: { width: 480 } }"
+        :styles="{ popupOverlayInner: { width: '480px' } }"
         :presets="presets"
-        :panel-render="horizontalPanelRender"
-      />
+      >
+        <template #panelRender="{ extra: { components } }">
+          <a-row justify="space-between" :wrap="false">
+            <a-col :span="12">
+              <component :is="components.Presets" />
+            </a-col>
+            <a-divider vertical style="height: auto" />
+            <a-col flex="auto">
+              <component :is="components.Picker" />
+            </a-col>
+          </a-row>
+        </template>
+      </a-color-picker>
     </a-space>
   </a-space>
 </template>

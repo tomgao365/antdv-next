@@ -126,6 +126,7 @@ const ColorPicker = defineComponent<
       formatValue.value = newFormat
       if (prev !== newFormat) {
         emit('formatChange', newFormat)
+        emit('update:format', newFormat)
       }
     }
 
@@ -178,15 +179,14 @@ const ColorPicker = defineComponent<
     const gradientDragging = shallowRef(false)
 
     const onInternalModeChange = (newMode: ModeType) => {
-      console.log(newMode, 'newMode')
+      const _mergedColor = mergedColor.value
+      setModeState(newMode)
       if (newMode === 'single' && mergedColor.value?.isGradient()) {
         activeIndex.value = 0
-        cachedGradientColor.value = mergedColor.value
-        console.log(mergedColor.value.toCssString())
         onInternalChange(new AggregationColor(mergedColor.value.getColors()[0]!.color!))
+        cachedGradientColor.value = _mergedColor
       }
       else if (newMode === 'gradient' && !mergedColor.value?.isGradient()) {
-        console.log('gradient', cachedGradientColor.value, cachedGradientColor.value?.toCssString?.())
         const baseColor = isAlphaColor.value ? genAlphaColor(mergedColor.value) : mergedColor.value
         onInternalChange(
           new AggregationColor(
@@ -197,7 +197,6 @@ const ColorPicker = defineComponent<
           ),
         )
       }
-      setModeState(newMode)
     }
 
     // ================== Form Status ==================

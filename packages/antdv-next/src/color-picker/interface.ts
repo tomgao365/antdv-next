@@ -109,13 +109,13 @@ export type ColorPickerProps
 
 export interface ColorPickerEmits {
   'change': (value: AggregationColor, css: string) => void
-  'update:color': (value: ColorValueType) => void
   'clear': () => void
   'changeComplete': (value: AggregationColor) => void
   'openChange': (open: boolean) => void
   'update:open': (open: boolean) => void
   'formatChange': (format?: ColorFormatType) => void
   'update:value': (value: ColorValueType) => void
+  'update:format': (format: ColorFormatType) => void
   [key: string]: (...args: any[]) => void
 }
 

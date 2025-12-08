@@ -26,7 +26,6 @@ export default function useModeColor(
   watch(
     value,
     () => {
-      console.log('sdsd')
       mergedColor.value = value.value
     },
   )
