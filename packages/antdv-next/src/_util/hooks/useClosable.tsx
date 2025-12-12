@@ -1,15 +1,15 @@
 import type { AriaAttributes, Ref, VNodeChild } from 'vue'
-import type { RenderNodeFn, VueNode } from '../type.ts'
+import type { RenderNodeFn, VueNode } from '../type'
 import { CloseOutlined } from '@antdv-next/icons'
 import pickAttrs from '@v-c/util/dist/pickAttrs'
 import { filterEmpty } from '@v-c/util/dist/props-util'
 import { computed, createVNode, isVNode, ref, unref } from 'vue'
 import defaultLocale from '../../locale/en_US'
-import useLocale from '../../locale/useLocale.ts'
+import useLocale from '../../locale/useLocale'
 import extendsObject from '../extendsObject'
-import isNonNullable from '../isNonNullable.ts'
-import { getSlotPropsFnRun } from '../tools.ts'
-import { getVNode } from '../vueNode.ts'
+import isNonNullable from '../isNonNullable'
+import { getSlotPropsFnRun } from '../tools'
+import { getVNode } from '../vueNode'
 
 interface DataAttributes {
   [key: `data-${string}`]: string

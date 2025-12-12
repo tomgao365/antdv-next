@@ -88,5 +88,6 @@ declare module 'vue' {
     AMasonry: typeof import('antdv-next')['Masonry']
     ARate: typeof import('antdv-next')['Rate']
     AProgress: typeof import('antdv-next')['Progress']
+    ADrawer: typeof import('antdv-next')['Drawer']
   }
 }

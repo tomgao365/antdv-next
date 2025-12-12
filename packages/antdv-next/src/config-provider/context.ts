@@ -14,6 +14,7 @@ import type { CheckboxProps } from '../checkbox'
 import type { CollapseProps } from '../collapse'
 import type { DescriptionsProps } from '../descriptions'
 import type { DividerProps } from '../divider'
+import type { DrawerProps } from '../drawer'
 import type { EmptyProps } from '../empty'
 import type { FlexProps } from '../flex'
 import type { FloatButtonGroupProps, FloatButtonProps } from '../float-button'
@@ -303,6 +304,9 @@ export type CardMetaConfig = ComponentStyleConfig & Pick<CardMetaProps, 'classes
 
 export type CardConfig = ComponentStyleConfig
   & Pick<CardProps, 'classes' | 'styles' | 'variant'>
+
+export type DrawerConfig = ComponentStyleConfig
+  & Pick<DrawerProps, 'classes' | 'styles' | 'closeIcon' | 'closable' | 'mask'>
 export interface ConfigComponentProps {
   input?: InputConfig
   inputNumber?: InputNumberConfig
@@ -318,7 +322,7 @@ export interface ConfigComponentProps {
   anchor?: AnchorStyleConfig
   button?: ButtonConfig
   divider?: DividerConfig
-  // drawer?: DrawerConfig;
+  drawer?: DrawerConfig
   calendar?: ComponentStyleConfig
   carousel?: ComponentStyleConfig
   // cascader?: CascaderConfig;
