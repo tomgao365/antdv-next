@@ -29,7 +29,7 @@ export type NotificationStylesType = SemanticStylesType<ArgsProps, NotificationS
 
 export interface ArgsProps {
   title: VueNode
-  description: VueNode
+  description?: VueNode
   actions?: VueNode
   key?: Key
   onClose?: () => void
