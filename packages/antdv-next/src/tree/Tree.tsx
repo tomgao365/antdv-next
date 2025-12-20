@@ -1,11 +1,14 @@
-import type { BasicDataNode, DataNode, TreeProps as VcTreeProps } from '@v-c/tree'
+import type { BasicDataNode, DataNode, TreeRef, TreeProps as VcTreeProps } from '@v-c/tree'
 import type { Key } from '@v-c/util/dist/type'
 import type { SlotsType } from 'vue'
 import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks'
 import type { VueNode } from '../_util/type.ts'
 import { HolderOutlined } from '@antdv-next/icons'
 import VcTree from '@v-c/tree'
-import { computed, defineComponent } from 'vue'
+import { clsx } from '@v-c/util'
+import { getAttrStyleAndClass } from '@v-c/util/dist/props-util'
+import { omit } from 'es-toolkit'
+import { computed, defineComponent, shallowRef } from 'vue'
 import {
   useMergeSemantic,
   useToArr,
@@ -17,12 +20,16 @@ import { useComponentBaseConfig } from '../config-provider/context.ts'
 import { useDisabledContext } from '../config-provider/DisabledContext.tsx'
 import { useToken } from '../theme/internal'
 import useStyle from './style'
+import dropIndicatorRender from './utils/dropIndicator.tsx'
 import SwitcherIconCom from './utils/iconUtil.tsx'
 
 export type SwitcherIcon = any | ((props: AntTreeNodeProps) => any)
 export type TreeLeafIcon = any | ((props: AntTreeNodeProps) => any)
 type TreeIcon = any | ((props: AntdTreeNodeAttribute) => any)
 
+export type {
+  TreeRef,
+}
 export interface AntdTreeNodeAttribute {
   eventKey: string
   prefixCls: string
@@ -144,6 +151,7 @@ export interface TreeProps<T extends BasicDataNode = DataNode>
     | 'onDragStart'
     | 'onDragLeave'
     | 'onDragEnter'
+    | 'tabIndex'
   > {
   rootClass?: string
   showLine?: boolean | { showLeafIcon: boolean | TreeLeafIcon }
@@ -189,6 +197,7 @@ export interface TreeProps<T extends BasicDataNode = DataNode>
   switcherLoadingIcon?: VueNode
   prefixCls?: string
   blockNode?: boolean
+  tabindex?: number
 }
 
 export interface TreeEmits {
@@ -210,6 +219,7 @@ export interface TreeEmits {
   'update:expandedKeys': (keys: Key[]) => void
   'update:checkedKeys': (keys: Key[] | { checked: Key[], halfChecked: Key[] }) => void
   'update:selectedKeys': (keys: Key[]) => void
+  'update:activeKey': (key: Key) => void
   [key: string]: (...args: any) => void
 }
 
@@ -245,6 +255,7 @@ const Tree = defineComponent<
       classes: contextClassNames,
       styles: contextStyles,
     } = useComponentBaseConfig('tree', props)
+    const treeRef = shallowRef()
     const { classes, styles, motion: customMotion } = toPropsRefs(props, 'classes', 'styles', 'motion')
     const contextDisabled = useDisabledContext()
     const mergedDisabled = computed(() => props?.disabled ?? contextDisabled.value)
@@ -273,8 +284,18 @@ const Tree = defineComponent<
     const itemHeight = computed(() => token.value.paddingXS / 2 + (token.value.Tree?.titleHeight || token.value.controlHeightSM))
 
     return () => {
-      const { draggable, showLine } = props
-      const draggableIcon = getSlotPropsFnRun(slots, {}, 'draggableIcon')
+      const {
+        draggable,
+        showLine,
+        selectable,
+        blockNode,
+        showIcon,
+        checkable,
+        rootClass,
+        tabindex,
+      } = props
+      const { className, style, restAttrs } = getAttrStyleAndClass(attrs)
+      const draggableIcon = getSlotPropsFnRun(slots, props, 'draggableIcon')
       const draggableConfigFn = () => {
         if (!draggable) {
           return false
@@ -301,7 +322,7 @@ const Tree = defineComponent<
       }
       const draggableConfig = draggableConfigFn()
       const switcherIcon = slots?.switcherIcon ?? props?.switcherIcon
-      const switcherLoadingIcon = slots?.switcherLoadingIcon ?? props?.switcherLoadingIcon
+      const switcherLoadingIcon = getSlotPropsFnRun(slots, props, 'switcherLoadingIcon')
       const renderSwitcherIcon = (nodeProps: AntTreeNodeProps) => (
         <SwitcherIconCom
           prefixCls={prefixCls.value}
@@ -311,16 +332,126 @@ const Tree = defineComponent<
           showLine={showLine}
         />
       )
+      const newProps = {
+        ...omit(props, ['icon']),
+        disabled: mergedDisabled.value,
+        showLine: Boolean(showLine),
+        dropIndicatorRender,
+      }
+      const onAttrs: Partial<VcTreeProps> = {
+        onCheck(checked, info) {
+          emit('check', checked, info)
+          emit('update:checkedKeys', checked)
+        },
+        onClick(...args) {
+          emit('click', ...args)
+        },
+        onExpand(expandKeys, info) {
+          emit('expand', expandKeys, info)
+          emit('update:expandedKeys', expandKeys)
+        },
+        onBlur(e) {
+          emit('blur', e)
+        },
+        onLoad(loadKeys, info) {
+          emit('load', loadKeys, info)
+        },
+        onFocus(e) {
+          emit('focus', e)
+        },
+        onActiveChange(key) {
+          emit('activeChange', key)
+          emit('update:activeKey', key)
+        },
+        onDrop(info) {
+          emit('drop', info)
+        },
+        onDragEnd(info) {
+          emit('dragend', info)
+        },
+        onDragEnter(info) {
+          emit('dragenter', info)
+        },
+        onDragLeave(info) {
+          emit('dragleave', info)
+        },
+        onDragOver(info) {
+          emit('dragover', info)
+        },
+        onDoubleClick(e) {
+          emit('doubleClick', e)
+          emit('dblclick', e)
+        },
+        onContextMenu(e) {
+          emit('contextmenu', e)
+        },
+        onKeyDown(e) {
+          emit('keydown', e)
+        },
+        onScroll(e) {
+          emit('scroll', e)
+        },
+        onRightClick(info) {
+          emit('rightClick', info)
+        },
+        onSelect(keys, info) {
+          emit('select', keys, info)
+          emit('update:selectedKeys', keys)
+        },
+        onDragStart(info) {
+          emit('dragstart', info)
+        },
+        onMouseEnter(e) {
+          emit('mouseenter', e)
+        },
+        onMouseLeave(e) {
+          emit('mouseleave', e)
+        },
+      }
+      expose({
+        scrollTo(...args: any[]) {
+          treeRef.value?.scrollTo?.(...args)
+        },
+      })
+      const icon = slots?.icon ?? props?.icon
       return (
         <VcTree
+          {...restAttrs}
+          ref={treeRef}
           itemHeight={itemHeight.value}
           virtual={virtual.value}
+          {...newProps as any}
+          {...onAttrs}
+          icon={icon}
           prefixCls={prefixCls.value}
+          className={clsx(
+            {
+              [`${prefixCls.value}-icon-hide`]: !showIcon,
+              [`${prefixCls.value}-block-node`]: blockNode,
+              [`${prefixCls.value}-unselectable`]: !selectable,
+              [`${prefixCls.value}-rtl`]: direction.value === 'rtl',
+              [`${prefixCls.value}-disabled`]: mergedDisabled.value,
+            },
+            contextClassName.value,
+            className,
+            hashId.value,
+            cssVarCls.value,
+          )}
+          tabIndex={tabindex}
+          style={{ ...contextStyle.value, ...style }}
+          rootClassName={clsx(mergedClassNames.value?.root, rootClass)}
+          rootStyle={mergedStyles.value?.root}
+          classNames={mergedClassNames.value}
+          styles={mergedStyles.value}
+          direction={direction.value}
+          checkable={checkable ? <span class={`${prefixCls.value}-checkbox-inner`} /> : checkable}
+          selectable={selectable}
+          switcherIcon={renderSwitcherIcon}
+          draggable={draggableConfig}
           v-slots={{
             default: slots?.default,
           }}
-        >
-        </VcTree>
+        />
       )
     }
   },
