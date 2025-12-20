@@ -152,6 +152,13 @@ export interface TreeProps<T extends BasicDataNode = DataNode>
     | 'onDragLeave'
     | 'onDragEnter'
     | 'tabIndex'
+    | 'onSelect'
+    | 'onFocus'
+    | 'onMouseEnter'
+    | 'onMouseLeave'
+    | 'onRightClick'
+    | 'onScroll'
+    | 'style'
   > {
   rootClass?: string
   showLine?: boolean | { showLeafIcon: boolean | TreeLeafIcon }
@@ -215,6 +222,9 @@ export interface TreeEmits {
   'drop': NonNullable<VcTreeProps['onDrop']>
   'dragend': NonNullable<VcTreeProps['onDragEnd']>
   'load': NonNullable<VcTreeProps['onLoad']>
+  'mouseleave': NonNullable<VcTreeProps['onMouseLeave']>
+  'mouseenter': NonNullable<VcTreeProps['onMouseEnter']>
+  'scroll': NonNullable<VcTreeProps['onScroll']>
   'activeChange': NonNullable<VcTreeProps['onActiveChange']>
   'update:expandedKeys': (keys: Key[]) => void
   'update:checkedKeys': (keys: Key[] | { checked: Key[], halfChecked: Key[] }) => void
@@ -282,7 +292,11 @@ const Tree = defineComponent<
     const [, token] = useToken()
 
     const itemHeight = computed(() => token.value.paddingXS / 2 + (token.value.Tree?.titleHeight || token.value.controlHeightSM))
-
+    expose({
+      scrollTo(...args: any[]) {
+        treeRef.value?.scrollTo?.(...args)
+      },
+    })
     return () => {
       const {
         draggable,
@@ -408,11 +422,7 @@ const Tree = defineComponent<
           emit('mouseleave', e)
         },
       }
-      expose({
-        scrollTo(...args: any[]) {
-          treeRef.value?.scrollTo?.(...args)
-        },
-      })
+
       const icon = slots?.icon ?? props?.icon
       return (
         <VcTree
@@ -423,6 +433,7 @@ const Tree = defineComponent<
           {...newProps as any}
           {...onAttrs}
           icon={icon}
+          motion={motion.value}
           prefixCls={prefixCls.value}
           className={clsx(
             {

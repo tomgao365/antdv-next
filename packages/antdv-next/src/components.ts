@@ -119,6 +119,25 @@ export { default as Tooltip, UniqueProvider } from './tooltip'
 export type { TooltipAlignConfig, TooltipEmits, TooltipPlacement, TooltipProps, TooltipRef, TooltipSlots } from './tooltip'
 export { default as Tour } from './tour'
 export type { TourEmits, TourLocale, TourProps, TourSlots, TourStepItem, TourStylesType } from './tour'
+export { DirectoryTree, default as Tree } from './tree'
+export type {
+  AntdTreeNodeAttribute,
+  AntTreeNode,
+  AntTreeNodeCheckedEvent,
+  AntTreeNodeExpandedEvent,
+  AntTreeNodeMouseEvent,
+  AntTreeNodeProps,
+  AntTreeNodeSelectedEvent,
+  BasicDataNode,
+  DirectoryTreeEmits,
+  DirectoryTreeExpandAction,
+  DirectoryTreeProps,
+  DirectoryTreeSlots,
+  DataNode as TreeDataNode,
+  TreeEmits,
+  TreeProps,
+  TreeSlots,
+} from './tree'
 export {
   default as Typography,
   TypographyLink,
