@@ -53,6 +53,7 @@ import type { TourProps } from '../tour'
 import type { TreeSelectProps } from '../tree-select'
 import type { TreeProps } from '../tree/Tree.tsx'
 import type { BlockProps as TypographyBaseProps } from '../typography/interface'
+import type { UploadProps } from '../upload/interface.ts'
 import type { RenderEmptyHandler } from './defaultRenderEmpty'
 import { computed, inject, provide, ref } from 'vue'
 
@@ -341,6 +342,9 @@ export type TreeConfig = ComponentStyleConfig & Pick<TreeProps, 'classes' | 'sty
 export type TreeSelectConfig = ComponentStyleConfig
   & Pick<TreeSelectProps, 'variant' | 'classes' | 'styles' | 'switcherIcon'>
 
+export type UploadConfig = ComponentStyleConfig
+  & Pick<UploadProps, 'classes' | 'styles' | 'customRequest'>
+
 export interface ConfigComponentProps {
   input?: InputConfig
   inputNumber?: InputNumberConfig
@@ -402,7 +406,7 @@ export interface ConfigComponentProps {
   tooltip?: TooltipConfig
   popover?: PopoverConfig
   popconfirm?: PopconfirmConfig
-  // upload?: UploadConfig;
+  upload?: UploadConfig
   notification?: NotificationConfig
   tree?: TreeConfig
   colorPicker?: ComponentStyleConfig
