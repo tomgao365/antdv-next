@@ -2,7 +2,6 @@ import type {
   AcceptConfig,
   VcFile as OriVcFile,
   UploadRequestOption as VcCustomRequestOptions,
-  UploadProps as VcUploadProps,
 } from '@v-c/upload'
 import type { ImgHTMLAttributes } from 'vue'
 import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks'
@@ -88,9 +87,7 @@ type BeforeUploadValueType = void | boolean | string | Blob | File
 export type SemanticName = 'root' | 'list' | 'item'
 export type UploadClassNamesType<T = any> = SemanticClassNamesType<UploadProps<T>, SemanticName>
 export type UploadStylesType<T = any> = SemanticStylesType<UploadProps<T>, SemanticName>
-export interface UploadProps<T = any> extends Pick<VcUploadProps, 'capture'
-  | 'hasControlInside'
-  | 'pastable'> {
+export interface UploadProps<T = any> {
   type?: UploadType
   name?: string
   defaultFileList?: Array<UploadFile<T>>
@@ -137,6 +134,11 @@ export interface UploadProps<T = any> extends Pick<VcUploadProps, 'capture'
   /** Config max count of `fileList`. Will replace current one when `maxCount` is 1 */
   maxCount?: number
   onRemove?: (file: UploadFile<T>) => void | boolean | Promise<void | boolean>
+  onPreview?: (file: UploadFile<T>) => void
+  onDownload?: (file: UploadFile<T>) => void
+  capture?: string | boolean
+  hasControlInside?: boolean
+  pastable?: boolean
 }
 
 // click: VcUploadProps['onClick']
@@ -150,15 +152,16 @@ export interface UploadProps<T = any> extends Pick<VcUploadProps, 'capture'
 export interface UploadEmits<T = any> {
   'change': (info: UploadChangeParam<UploadFile<T>>) => void
   'drop': (event: DragEvent) => void
-  'preview': (file: UploadFile<T>) => void
-  'download': (file: UploadFile<T>) => void
+  // 'preview': (file: UploadFile<T>) => void
+  // 'download': (file: UploadFile<T>) => void
   'update:fileList': (fileList: UploadFile<T>[]) => void
   [key: string]: (...args: any[]) => void
 }
 
 export interface UploadSlots<T = any> {
-  iconRender: (props: { file: UploadFile<T>, listType?: UploadListType }) => any
-  itemRender: (props: {
+  default?: () => any
+  iconRender?: (props: { file: UploadFile<T>, listType?: UploadListType }) => any
+  itemRender?: (props: {
     originNode: any
     file: UploadFile<T>
     fileList: Array<UploadFile<T>>
@@ -201,17 +204,27 @@ export interface UploadListProps<T = any> {
    */
   disabled?: boolean
   onRemove?: (file: UploadFile<T>) => void | boolean
+  onPreview?: (file: UploadFile<T>) => void
+  onDownload?: (file: UploadFile<T>) => void
 }
 
-export interface UploadListEmits<T = any> {
-  preview: (file: UploadFile<T>) => void
-  download: (file: UploadFile<T>) => void
+export interface UploadListEmits {
+  [key: string]: (...args: any[]) => void
 }
 
 export interface UploadListSlots<T = any> {
-  iconRender: (props: { file: UploadFile<T>, listType?: UploadListType }) => any
-  itemRender: ItemRender<T>
-  removeIcon: (props: { file: UploadFile<T> }) => any
-  downloadIcon: (props: { file: UploadFile<T> }) => any
-  previewIcon: (props: { file: UploadFile<T> }) => any
+  iconRender?: (props: { file: UploadFile<T>, listType?: UploadListType }) => any
+  itemRender?: (props: {
+    originNode: any
+    file: UploadFile<T>
+    fileList: Array<UploadFile<T>>
+    actions: {
+      download: () => void
+      preview: () => void
+      remove: () => void
+    }
+  }) => any
+  removeIcon?: (props: { file: UploadFile<T> }) => any
+  downloadIcon?: (props: { file: UploadFile<T> }) => any
+  previewIcon?: (props: { file: UploadFile<T> }) => any
 }

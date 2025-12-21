@@ -97,5 +97,7 @@ declare module 'vue' {
     ATree: typeof import('antdv-next')['Tree']
     ADirectoryTree: typeof import('antdv-next')['DirectoryTree']
     ATreeSelect: typeof import('antdv-next')['TreeSelect']
+    AUpload: typeof import('antdv-next')['Upload']
+    AUploadDragger: typeof import('antdv-next')['UploadDragger']
   }
 }
