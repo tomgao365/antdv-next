@@ -1,10 +1,10 @@
 import type { Ref } from 'vue'
 import type { AnyObject } from '../../../_util/type.ts'
 import type {
+  FilterDropdownProps as ColumnFilterDropdownProps,
   ColumnsType,
   ColumnTitleProps,
   ColumnType,
-  FilterDropdownProps as ColumnFilterDropdownProps,
   FilterKey,
   FilterValue,
   GetPopupContainer,

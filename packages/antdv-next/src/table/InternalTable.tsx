@@ -568,66 +568,6 @@ const InternalTable = defineComponent<
       },
     })
 
-    const renderPagination = (placement: 'start' | 'end' | 'center' = 'end') => (
-      <Pagination
-        {...mergedPagination.value as any}
-        classNames={mergedClassNames.value.pagination}
-        styles={mergedStyles.value.pagination}
-        class={clsx(
-          `${prefixCls.value}-pagination ${prefixCls.value}-pagination-${placement}`,
-          (mergedPagination.value as any).class,
-          (mergedPagination.value as any).className,
-        )}
-        size={mergedPagination.value.size || (mergedSize.value === 'small' || mergedSize.value === 'middle' ? 'small' : undefined)}
-      />
-    )
-
-    const paginationNodes = computed(() => {
-      if (props.pagination === false || !mergedPagination.value.total) {
-        return { top: null, bottom: null }
-      }
-
-      let topPaginationNode: VueNode = null
-      let bottomPaginationNode: VueNode = null
-
-      const { placement, position } = mergedPagination.value
-      const mergedPlacement = placement ?? position
-      const normalizePlacement = (pos: string) => {
-        const lowerPos = pos.toLowerCase()
-        if (lowerPos.includes('center')) {
-          return 'center'
-        }
-        return lowerPos.includes('left') || lowerPos.includes('start') ? 'start' : 'end'
-      }
-
-      if (Array.isArray(mergedPlacement)) {
-        const [topPos, bottomPos] = ['top', 'bottom'].map(dir => mergedPlacement.find(p => p.includes(dir)))
-        const isDisable = mergedPlacement.every(p => `${p}` === 'none')
-        if (!topPos && !bottomPos && !isDisable) {
-          bottomPaginationNode = renderPagination()
-        }
-        if (topPos) {
-          topPaginationNode = renderPagination(normalizePlacement(topPos))
-        }
-        if (bottomPos) {
-          bottomPaginationNode = renderPagination(normalizePlacement(bottomPos))
-        }
-      }
-      else {
-        bottomPaginationNode = renderPagination()
-      }
-
-      if (isDev) {
-        const warning = devUseWarning('Table')
-        warning.deprecated(!position, 'pagination.position', 'pagination.placement')
-      }
-
-      return {
-        top: topPaginationNode,
-        bottom: bottomPaginationNode,
-      }
-    })
-
     const spinProps = computed<SpinProps | undefined>(() => {
       if (typeof props.loading === 'boolean') {
         return { spinning: props.loading }
@@ -637,11 +577,6 @@ const InternalTable = defineComponent<
       }
       return undefined
     })
-
-    const renderHeaderCell = (ctx: { column: ColumnType, index: number, text: any }) =>
-      getSlotPropsFnRun(slots, props as any, 'headerCell', true, ctx)
-    const renderBodyCell = (ctx: { column: ColumnType, index: number, text: any, record: any }) =>
-      getSlotPropsFnRun(slots, props as any, 'bodyCell', true, ctx)
 
     const mergedVirtual = computed(() => props.virtual ?? contextVirtual.value)
     const TableComponent = computed(() => mergedVirtual.value ? VcVirtualTable : VcTable)
@@ -662,6 +597,10 @@ const InternalTable = defineComponent<
     })
 
     return () => {
+      const renderHeaderCell = (ctx: { column: ColumnType, index: number, text: any }) =>
+        getSlotPropsFnRun(slots, props as any, 'headerCell', true, ctx)
+      const renderBodyCell = (ctx: { column: ColumnType, index: number, text: any, record: any }) =>
+        getSlotPropsFnRun(slots, props as any, 'bodyCell', true, ctx)
       const { locale } = props
       const mergedEmptyNodeFn = () => {
         if (spinProps.value?.spinning && rawData.value === EMPTY_LIST) {
@@ -676,6 +615,64 @@ const InternalTable = defineComponent<
         return renderEmpty?.('Table') || <DefaultRenderEmpty componentName="Table" />
       }
       const mergedEmptyNode = mergedEmptyNodeFn()
+      const renderPagination = (placement: 'start' | 'end' | 'center' = 'end') => (
+        <Pagination
+          {...mergedPagination.value as any}
+          classNames={mergedClassNames.value.pagination}
+          styles={mergedStyles.value.pagination}
+          class={clsx(
+            `${prefixCls.value}-pagination ${prefixCls.value}-pagination-${placement}`,
+            (mergedPagination.value as any).class,
+            (mergedPagination.value as any).className,
+          )}
+          size={mergedPagination.value.size || (mergedSize.value === 'small' || mergedSize.value === 'middle' ? 'small' : undefined)}
+        />
+      )
+      const paginationNodes = (() => {
+        if (props.pagination === false || !mergedPagination.value.total) {
+          return { top: null, bottom: null }
+        }
+
+        let topPaginationNode: VueNode = null
+        let bottomPaginationNode: VueNode = null
+
+        const { placement, position } = mergedPagination.value
+        const mergedPlacement = placement ?? position
+        const normalizePlacement = (pos: string) => {
+          const lowerPos = pos.toLowerCase()
+          if (lowerPos.includes('center')) {
+            return 'center'
+          }
+          return lowerPos.includes('left') || lowerPos.includes('start') ? 'start' : 'end'
+        }
+
+        if (Array.isArray(mergedPlacement)) {
+          const [topPos, bottomPos] = ['top', 'bottom'].map(dir => mergedPlacement.find(p => p.includes(dir)))
+          const isDisable = mergedPlacement.every(p => `${p}` === 'none')
+          if (!topPos && !bottomPos && !isDisable) {
+            bottomPaginationNode = renderPagination()
+          }
+          if (topPos) {
+            topPaginationNode = renderPagination(normalizePlacement(topPos))
+          }
+          if (bottomPos) {
+            bottomPaginationNode = renderPagination(normalizePlacement(bottomPos))
+          }
+        }
+        else {
+          bottomPaginationNode = renderPagination()
+        }
+
+        if (isDev) {
+          const warning = devUseWarning('Table')
+          warning.deprecated(!position, 'pagination.position', 'pagination.placement')
+        }
+
+        return {
+          top: topPaginationNode,
+          bottom: bottomPaginationNode,
+        }
+      })()
       const { className, style, restAttrs } = getAttrStyleAndClass(attrs)
       const wrapperCls = clsx(
         cssVarCls.value,
@@ -715,7 +712,7 @@ const InternalTable = defineComponent<
       return (
         <div ref={rootRef} class={wrapperCls} style={mergedStyle}>
           <Spin spinning={false} {...(spinProps.value || {})}>
-            {paginationNodes.value.top}
+            {paginationNodes.top}
             <TableComp
               {...virtualProps}
               {...tableProps.value}
@@ -749,7 +746,7 @@ const InternalTable = defineComponent<
               summary={summary as any}
               onUpdate:expandedRowKeys={(keys: readonly Key[]) => emit('update:expandedRowKeys', keys)}
             />
-            {paginationNodes.value.bottom}
+            {paginationNodes.bottom}
           </Spin>
         </div>
       )
