@@ -29,7 +29,7 @@ import VcTable, { INTERNAL_HOOKS, VirtualTable as VcVirtualTable } from '@v-c/ta
 import { clsx } from '@v-c/util'
 import { getAttrStyleAndClass } from '@v-c/util/dist/props-util'
 import { omit } from 'es-toolkit'
-import { computed, defineComponent, shallowRef, watchEffect } from 'vue'
+import { computed, defineComponent, shallowRef, watch, watchEffect } from 'vue'
 import { useMergeSemantic, useToArr, useToProps } from '../_util/hooks'
 import scrollTo from '../_util/scrollTo.ts'
 import { getSlotPropsFnRun, toPropsRefs } from '../_util/tools.ts'
@@ -231,7 +231,10 @@ const InternalTable = defineComponent<
     const [globalLocale] = useLocale('global', defaultLocale.global)
     const mergedLocale = computed(() => ({ ...tableLocale?.value, ...(props.locale || {}) }))
 
-    const rawData = computed<readonly AnyObject[]>(() => props.dataSource || EMPTY_LIST)
+    const rawData = shallowRef(props?.dataSource || EMPTY_LIST)
+    watch(() => props.dataSource, () => {
+      rawData.value = props?.dataSource || EMPTY_LIST
+    })
     const internalRefs = {
       body: shallowRef<HTMLDivElement | null>(null),
     } as NonNullable<VcTableProps['internalRefs']>
