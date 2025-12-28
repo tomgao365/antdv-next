@@ -6,9 +6,9 @@ import { pagesRoutes } from '@/routes/pages'
 export const router = createRouter({
   routes: [
     {
-      path: '',
-      redirect: '/',
+      path: '/root',
       name: 'ROOT_ROUTE',
+      redirect: '/',
       component: () => import('@/layouts/base/root.vue'),
       children: [
         ...componentRoutes,
