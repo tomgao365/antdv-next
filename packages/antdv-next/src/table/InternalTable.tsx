@@ -409,21 +409,6 @@ const InternalTable = defineComponent<
       getFilterData(sortedData.value as any, mergedFilterStates.value, childrenColumnName.value),
     )
 
-    const columnTitleProps = computed(() => {
-      const mergedFilters: Record<string, FilterValue> = {}
-      Object.keys(filters.value).forEach((filterKey) => {
-        if (filters.value[filterKey] !== null) {
-          mergedFilters[filterKey] = filters.value[filterKey] as FilterValue
-        }
-      })
-      return {
-        ...sorterTitleProps.value,
-        filters: mergedFilters,
-      }
-    })
-
-    const [transformTitleColumns] = useTitleColumns(columnTitleProps)
-
     const onPaginationChange = (current: number, pageSize: number) => {
       triggerOnChange(
         {
@@ -548,6 +533,21 @@ const InternalTable = defineComponent<
     })
 
     return () => {
+      const columnTitlePropsFn = () => {
+        const mergedFilters: Record<string, FilterValue> = {}
+        Object.keys(filters.value).forEach((filterKey) => {
+          if (filters.value[filterKey] !== null) {
+            mergedFilters[filterKey] = filters.value[filterKey] as FilterValue
+          }
+        })
+        return {
+          ...sorterTitleProps.value,
+          filters: mergedFilters,
+        }
+      }
+      const columnTitleProps = columnTitlePropsFn()
+      const [transformTitleColumns] = useTitleColumns(columnTitleProps)
+
       const renderHeaderCell = (ctx: { column: ColumnType, index: number, text: any }) =>
         getSlotPropsFnRun(slots, props as any, 'headerCell', true, ctx)
       const renderBodyCell = (ctx: { column: ColumnType, index: number, text: any, record: any }) =>

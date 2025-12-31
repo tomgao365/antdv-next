@@ -118,34 +118,6 @@ function injectSorter<RecordType extends AnyObject = AnyObject>(prefixCls: strin
       const sorterState = sorterStates.find(({ key }) => key === columnKey)
       const sortOrder = sorterState ? sorterState.sortOrder : null
       const nextSortOrder = nextSortDirection(sortDirections, sortOrder)
-      let sorter: any
-      if (column.sortIcon) {
-        sorter = column.sortIcon({ sortOrder })
-      }
-      else {
-        const upNode = sortDirections.includes(ASCEND) && (
-          <CaretUpOutlined
-            class={clsx(`${prefixCls}-column-sorter-up`, { active: sortOrder === ASCEND })}
-          />
-        )
-        const downNode = sortDirections.includes(DESCEND) && (
-          <CaretDownOutlined
-            class={clsx(`${prefixCls}-column-sorter-down`, { active: sortOrder === DESCEND })}
-          />
-        )
-        sorter = (
-          <span
-            class={clsx(`${prefixCls}-column-sorter`, {
-              [`${prefixCls}-column-sorter-full`]: !!(upNode && downNode),
-            })}
-          >
-            <span class={`${prefixCls}-column-sorter-inner`} aria-hidden="true">
-              {upNode}
-              {downNode}
-            </span>
-          </span>
-        )
-      }
 
       const { cancelSort, triggerAsc, triggerDesc } = tableLocale || {}
       let sortTip: string | undefined = cancelSort
@@ -162,6 +134,34 @@ function injectSorter<RecordType extends AnyObject = AnyObject>(prefixCls: strin
         ...newColumn,
         className: clsx(newColumn.className, { [`${prefixCls}-column-sort`]: sortOrder }),
         title: (renderProps: ColumnTitleProps<RecordType>) => {
+          let sorter: any
+          if (column.sortIcon) {
+            sorter = column.sortIcon({ sortOrder })
+          }
+          else {
+            const upNode = sortDirections.includes(ASCEND) && (
+              <CaretUpOutlined
+                class={clsx(`${prefixCls}-column-sorter-up`, { active: sortOrder === ASCEND })}
+              />
+            )
+            const downNode = sortDirections.includes(DESCEND) && (
+              <CaretDownOutlined
+                class={clsx(`${prefixCls}-column-sorter-down`, { active: sortOrder === DESCEND })}
+              />
+            )
+            sorter = (
+              <span
+                class={clsx(`${prefixCls}-column-sorter`, {
+                  [`${prefixCls}-column-sorter-full`]: !!(upNode && downNode),
+                })}
+              >
+                <span class={`${prefixCls}-column-sorter-inner`} aria-hidden="true">
+                  {upNode}
+                  {downNode}
+                </span>
+              </span>
+            )
+          }
           const columnSortersClass = `${prefixCls}-column-sorters`
           const renderColumnTitleWrapper = (
             <span class={`${prefixCls}-column-title`}>
