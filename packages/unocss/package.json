@@ -27,6 +27,6 @@
     "vue": ">=3.2.0"
   },
   "dependencies": {
-    "@unocss/core": "^66.5.10"
+    "@unocss/core": "catalog:"
   }
 }

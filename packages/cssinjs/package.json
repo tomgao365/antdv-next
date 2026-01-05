@@ -3,7 +3,6 @@
   "type": "module",
   "version": "1.0.0-alpha.0",
   "description": "cssinjs solution for ant-design-vue",
-  "repository": {},
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -14,6 +13,11 @@
       "types": "./dist/cssinjs-utils/index.d.ts",
       "import": "./dist/cssinjs-utils/index.js",
       "default": "./dist/cssinjs-utils/index.js"
+    },
+    "./dist/*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js",
+      "default": "./dist/*.js"
     }
   },
   "files": [
