@@ -15,6 +15,8 @@ coverDark: https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*37T2R6O9oi0AAA
 ## 示例 {#examples}
 
 <demo-group>
+<demo src="./demo/basic.vue">基本用法</demo>
+<demo src="./demo/vertical.vue">垂直间距</demo>
 </demo-group>
 
 ## API

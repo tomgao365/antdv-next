@@ -14,6 +14,8 @@ coverDark: https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*37T2R6O9oi0AAA
 ## Examples {#examples}
 
 <demo-group>
+<demo src="./demo/basic.vue">Basic Usage</demo>
+<demo src="./demo/vertical.vue">Vertical Spacing</demo>
 </demo-group>
 
 ## API
