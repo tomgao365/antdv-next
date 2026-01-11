@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 多选
 多选，从已有条目中选择。
 </docs>
 
 <docs lang="en-US">
-## Multiple selection
 Multiple selection, selecting from existing items.
 </docs>
 

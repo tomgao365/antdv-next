@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 最多选择
 可以通过 `maxCount` 属性控制可选择的最大项数。当达到限制时，选项将变为禁用状态。
 </docs>
 
 <docs lang="en-US">
-## Max Count
 You can set the `maxCount` prop to control the max number of items can be selected. When the limit is exceeded, the options will become disabled.
 </docs>
 

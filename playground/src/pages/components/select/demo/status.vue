@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 状态
 使用 `status` 为 Select 添加状态，可选 `error` 或 `warning`。
 </docs>
 
 <docs lang="en-US">
-## Status
 Add status to Select with `status`, which could be `error` or `warning`.
 </docs>
 

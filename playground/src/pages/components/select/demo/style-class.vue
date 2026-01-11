@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 自定义语义化 DOM 样式
 您可以通过 `classNames` 和 `styles` 传入对象/函数来自定义 Select 的语义化 DOM 样式。
 </docs>
 
 <docs lang="en-US">
-## Custom semantic dom styling
 You can customize the semantic dom style of Select by passing objects/functions through `classNames` and `styles`.
 </docs>
 

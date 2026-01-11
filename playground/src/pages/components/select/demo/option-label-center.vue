@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 选项标签居中
 将选项标签显示居中对齐。
 </docs>
 
 <docs lang="en-US">
-## Option Label Center
 Center align option labels.
 </docs>
 

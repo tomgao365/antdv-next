@@ -19,7 +19,35 @@ demo:
 
 ## Examples {#examples}
 
+<!-- prettier-ignore -->
 <demo-group>
+  <demo src="./demo/basic.vue">Basic Usage</demo>
+  <demo src="./demo/search.vue">Select with search field</demo>
+  <demo src="./demo/search-filter-option.vue">Custom Search</demo>
+  <demo src="./demo/multiple.vue">Multiple selection</demo>
+  <demo src="./demo/size.vue">Sizes</demo>
+  <demo src="./demo/option-render.vue">Custom dropdown options</demo>
+  <demo src="./demo/search-sorts.vue">Search with sort</demo>
+  <demo src="./demo/tags.vue">Tags</demo>
+  <demo src="./demo/optgroup.vue">Option Group</demo>
+  <demo src="./demo/coordinate.vue">Coordinate</demo>
+  <demo src="./demo/search-box.vue">Search Box</demo>
+  <demo src="./demo/label-in-value.vue">Get value of selected item</demo>
+  <demo src="./demo/automatic-tokenization.vue">Automatic tokenization</demo>
+  <demo src="./demo/search-users.vue">Search and Select Users</demo>
+  <demo src="./demo/suffix.vue">Prefix and Suffix</demo>
+  <demo src="./demo/custom-dropdown-menu.vue">Custom dropdown</demo>
+  <demo src="./demo/hide-selected.vue">Hide Already Selected</demo>
+  <demo src="./demo/variant.vue">Variants</demo>
+  <demo src="./demo/custom-tag-render.vue">Custom Tag Render</demo>
+  <demo src="./demo/custom-label-render.vue">Custom Selected Label Render</demo>
+  <demo src="./demo/responsive.vue">Responsive maxTagCount</demo>
+  <demo src="./demo/big-data.vue">Big Data</demo>
+  <demo src="./demo/status.vue">Status</demo>
+  <demo src="./demo/placement.vue">Placement</demo>
+  <demo src="./demo/option-label-center.vue" debug>Options label Centered</demo>
+  <demo src="./demo/maxCount.vue">Max Count</demo>
+  <demo src="./demo/style-class.vue">Custom semantic dom styling</demo>
 </demo-group>
 
 ## API
@@ -157,3 +185,72 @@ Common props ref：[Common props](/docs/vue/common-props)
 | popup.root | Popup root element | - |
 | popup.list | Popup list | - |
 | popup.listItem | Popup list item | - |
+
+<ComponentTokenTable component="Select"></ComponentTokenTable>
+
+## FAQ
+
+### Why sometimes search will show 2 same option when in `tags` mode? {#faq-tags-mode-duplicate}
+
+It's caused by option with different `label` and `value`. You can use `optionFilterProp="label"` to change filter logic instead.
+
+### When I click elements in popupRender, the select dropdown will not be closed? {#faq-popup-not-close}
+
+You can control it by `open` prop.
+
+### I don't want dropdown close when click inside `popupRender`? {#faq-popup-keep-open}
+
+Select will close when it lose focus. You can prevent event to handle this:
+
+```html
+  <a-select>
+    <template #popupRender>
+      <div
+        @mousedown="(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }"
+      >
+        Some Content
+      </div>
+    </template>
+  </a-select>
+```
+
+### Why sometimes customize Option cause scroll break? {#faq-custom-option-scroll}
+
+Virtual scroll internal set item height as `24px`. You need to adjust `listItemHeight` when your option height is less and `listHeight` config list container height:
+
+```html
+  <a-select :list-item-height="10" :list-height="250" />
+```
+
+Note: `listItemHeight` and `listHeight` are internal props. Please only modify when necessary.
+
+### Why a11y test report missing `aria-` props? {#faq-aria-attribute}
+
+Select only create a11y auxiliary node when operating on. Please open Select and retry. For `aria-label` & `aria-labelledby` miss warning, please add related prop to Select with your own requirement.
+
+Default virtual scrolling will create a mock element to simulate an accessible binding. If a screen reader needs to fully access the entire list, you can set `:virtual="false"` to disable virtual scrolling and the accessibility option will be bound to the actual element.
+
+### Custom tags generated using `tagRender` slot will pop up a drop-down box when clicked to close {#faq-tagrender-dropdown}
+
+If you don't want a drop-down menu to appear automatically after clicking on an element (such as a close icon), you can prevent the `mousedown` event from propagating on it.
+
+```html
+  <a-select>
+    <template #tagRender="{ closable, label, onClose }">
+      <span class="border">
+        {{ label }}
+        <span
+          v-if="closable"
+          class="cursor-pointer"
+          @mousedown.stop
+          @click="onClose"
+        >
+          ❎
+        </span>
+      </span>
+    </template>
+  </a-select>
+```

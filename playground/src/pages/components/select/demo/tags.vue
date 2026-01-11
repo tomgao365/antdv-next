@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 标签
 用户可以从列表中选择标签或者输入自定义标签。
 </docs>
 
 <docs lang="en-US">
-## Tags
 Allow user to select tags from list or input custom tag.
 </docs>
 

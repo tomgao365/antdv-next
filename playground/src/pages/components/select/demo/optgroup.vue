@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 选项分组
 用 `OptGroup` 进行选项分组。
 </docs>
 
 <docs lang="en-US">
-## Option Group
 Using `OptGroup` to group the options.
 </docs>
 

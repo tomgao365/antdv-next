@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 搜索用户
 一个带有远程搜索、防抖、请求顺序控制和加载状态的多选示例。
 </docs>
 
 <docs lang="en-US">
-## Search and Select Users
 A complete multiple select sample with remote search, debounce fetch, ajax callback order flow, and loading state.
 </docs>
 

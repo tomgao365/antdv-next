@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 自定义下拉选项
 使用 `optionRender` 自定义渲染下拉选项。
 </docs>
 
 <docs lang="en-US">
-## Custom dropdown options
 Use `optionRender` to customize the rendering dropdown options.
 </docs>
 

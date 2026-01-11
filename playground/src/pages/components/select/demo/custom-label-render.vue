@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 自定义选中标签渲染
 允许自定义当前选中标签的渲染，可用于值回填但相应选项缺失，不想直接渲染值的情况。
 </docs>
 
 <docs lang="en-US">
-## Custom Selected Label Render
 Allows custom rendering of the currently selected label, which can be used for value backfill but the corresponding option is missing and does not want to directly render the value.
 </docs>
 

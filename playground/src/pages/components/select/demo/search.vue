@@ -1,10 +1,8 @@
 <docs lang="zh-CN">
-## 带搜索框
 展开后可搜索选项。
 </docs>
 
 <docs lang="en-US">
-## Select with search field
 Search the options while expanded.
 </docs>
 
