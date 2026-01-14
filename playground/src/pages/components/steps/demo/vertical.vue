@@ -1,9 +1,9 @@
 <docs lang="zh-CN">
-竖直方向。
+简单的竖直方向的步骤条。
 </docs>
 
 <docs lang="en-US">
-Vertical.
+A simple step bar in the vertical orientation.
 </docs>
 
 <script lang="ts" setup>

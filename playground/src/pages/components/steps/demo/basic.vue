@@ -1,9 +1,9 @@
 <docs lang="zh-CN">
-基本用法。
+简单的步骤条，使用 `variant` 属性来设置不同的样式，使用 `size` 控制大小。
 </docs>
 
 <docs lang="en-US">
-Basic usage.
+The most basic step bar. Use the `variant` property to set different styles and `size` to control the size.
 </docs>
 
 <script lang="ts" setup>

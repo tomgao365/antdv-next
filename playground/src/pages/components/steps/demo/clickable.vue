@@ -1,3 +1,11 @@
+<docs lang="zh-CN">
+设置 `onChange` 后，Steps 变为可点击状态。
+</docs>
+
+<docs lang="en-US">
+Setting `onChange` makes Steps clickable.
+</docs>
+
 <script setup lang="ts">
 import { ref } from 'vue'
 

@@ -18,6 +18,7 @@ coverDark: https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*cFsBQLA0b7UAAA
 <demo src="./demo/basic.vue">基本用法</demo>
 <demo src="./demo/error.vue">步骤运行错误</demo>
 <demo src="./demo/vertical.vue">竖直方向的步骤条</demo>
+<demo src="./demo/clickable.vue">可点击</demo>
 </demo-group>
 
 ## API
