@@ -6,6 +6,7 @@ import type { Breakpoint } from '../_util/responsiveObserver'
 import type { VueNode } from '../_util/type'
 import type { ButtonProps, LegacyButtonType } from '../button'
 import type { DirectionType } from '../config-provider/context'
+import type { FocusableConfig } from '../drawer/useFocusable.ts'
 
 export type SemanticName
   = | 'root'
@@ -102,6 +103,7 @@ export interface ModalProps extends ModalCommonProps {
    * @since 5.18.0
    */
   loading?: boolean
+  focusable?: FocusableConfig
 }
 
 export interface ModalEmits {

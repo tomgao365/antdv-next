@@ -3,6 +3,7 @@ import type { CSSMotionProps } from '@v-c/util/dist/utils/transition'
 import type { App, SlotsType } from 'vue'
 import type { MaskType } from '../_util/hooks'
 import type { DrawerClassNamesType, DrawerPanelProps, DrawerStylesType } from './DrawerPanel'
+import type { FocusableConfig } from './useFocusable.ts'
 import VcDrawer from '@v-c/drawer'
 import { clsx } from '@v-c/util'
 import { getTransitionName } from '@v-c/util/dist/utils/transition'
@@ -16,6 +17,7 @@ import { useComponentBaseConfig } from '../config-provider/context'
 import { usePanelRef } from '../watermark/context.ts'
 import DrawerPanel from './DrawerPanel'
 import useStyle from './style'
+import useFocusable from './useFocusable.ts'
 
 const _SizeTypes = ['default', 'large'] as const
 
@@ -47,6 +49,7 @@ export interface DrawerProps
    */
   destroyOnHidden?: boolean
   mask?: MaskType
+  focusable?: FocusableConfig
 }
 
 export interface DrawerEmits {
@@ -99,7 +102,20 @@ const Drawer = defineComponent<
       styles: contextStyles,
       mask: contextMask,
     } = useComponentBaseConfig('drawer', props, ['mask'])
-    const { zIndex: customZIndex, mask: drawerMask, classes, styles } = toPropsRefs(props, 'zIndex', 'mask', 'classes', 'styles')
+    const {
+      zIndex: customZIndex,
+      mask: drawerMask,
+      classes,
+      styles,
+      focusable,
+    } = toPropsRefs(
+      props,
+      'zIndex',
+      'mask',
+      'classes',
+      'styles',
+      'focusable',
+    )
 
     const [hashId, cssVarCls] = useStyle(prefixCls)
     if (isDev) {
@@ -146,12 +162,18 @@ const Drawer = defineComponent<
     // ============================ zIndex ============================
     const [zIndex, contextZIndex] = useZIndex('Drawer', customZIndex)
 
+    // ============================ Mask ============================
     const [mergedMask, maskBlurClassName] = useMergedMask(drawerMask, contextMask, prefixCls)
+    // ========================== Focusable =========================
+    const mergedFocusable = useFocusable(focusable, computed(() => {
+      return props?.getContainer !== false && mergedMask.value
+    }))
     const mergedProps = computed(() => {
       return {
         ...props,
         zIndex: zIndex.value,
         mask: mergedMask.value,
+        focusable: mergedFocusable.value,
       } as DrawerProps
     })
 
@@ -272,6 +294,9 @@ const Drawer = defineComponent<
               {...(resizable ? { resizable } : {})}
               aria-labelledby={ariaLabelledby ?? ariaId}
               destroyOnHidden={destroyOnHidden ?? destroyOnClose}
+              // Focusable
+              focusTriggerAfterClose={mergedFocusable.value.focusTriggerAfterClose}
+              focusTrap={mergedFocusable.value.trap}
             >
               <DrawerPanel
                 {...rest}

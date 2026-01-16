@@ -97,11 +97,11 @@ catalogs:
       specifier: ^1.0.3
       version: 1.0.3
     '@v-c/dialog':
-      specifier: ^0.0.3
-      version: 0.0.3
+      specifier: ^0.0.4
+      version: 0.0.4
     '@v-c/drawer':
-      specifier: ^0.0.3
-      version: 0.0.3
+      specifier: ^0.0.4
+      version: 0.0.4
     '@v-c/dropdown':
       specifier: ^1.0.1
       version: 1.0.1
@@ -481,10 +481,10 @@ importers:
         version: 1.0.3(vue@3.5.25(typescript@5.9.3))
       '@v-c/dialog':
         specifier: 'catalog:'
-        version: 0.0.3(vue@3.5.25(typescript@5.9.3))
+        version: 0.0.4(vue@3.5.25(typescript@5.9.3))
       '@v-c/drawer':
         specifier: 'catalog:'
-        version: 0.0.3(vue@3.5.25(typescript@5.9.3))
+        version: 0.0.4(vue@3.5.25(typescript@5.9.3))
       '@v-c/dropdown':
         specifier: 'catalog:'
         version: 1.0.1(vue@3.5.25(typescript@5.9.3))
@@ -2191,13 +2191,13 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  '@v-c/dialog@0.0.3':
-    resolution: {integrity: sha512-V0v4Pe+9rUWjXJaubkii1rX2JyD0nG6DpsEC74QQ8+i+vQ7sXpeHjgPKch0zfzhDbBEIx7i0pB1In72VxJQyWw==}
+  '@v-c/dialog@0.0.4':
+    resolution: {integrity: sha512-9cxrs51QOalPbGxti70gLzPLw34FR6HFYfR0ESsBzByvHvmQpHwxJvpzrEZFG8+sWZsi7rm4hQOPcS11/7Hdxg==}
     peerDependencies:
       vue: ^3.0.0
 
-  '@v-c/drawer@0.0.3':
-    resolution: {integrity: sha512-ZGrJbj3MqMxvwjynVS25jQCbw8kzkPl2pwrdB4MjrsA98p4J/+sOt3CLl4CswAVIrVcJpcpo1UKsoLDgZ4QJAg==}
+  '@v-c/drawer@0.0.4':
+    resolution: {integrity: sha512-ITBFOhwXJeePVE4pBIRbESS+WLTs7fkWi+qKhrBnTxAfo1rReChmQs8pmUzlrMURnn3Htlez2pCLI5MqqgpGRA==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -2274,6 +2274,11 @@ packages:
 
   '@v-c/portal@1.0.2':
     resolution: {integrity: sha512-bhJkzLgXFC0jJM2b5T9nsuJOBCsoJHIc9TcvLoh3Je3Wizqy+tg9Yd+K5DhRmwUYOKT/liZ8aEuqfFg14dZWmw==}
+    peerDependencies:
+      vue: ^3.0.0
+
+  '@v-c/portal@1.0.3':
+    resolution: {integrity: sha512-BVLd60WgBTCgWotVO4d422jac9gdAIaSIgfEl4RfkuQuFM5r9D6tcAmhzyp/nGFUVLc3tpEvhUaW01F9w/uRNQ==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -6968,15 +6973,15 @@ snapshots:
       '@v-c/util': 1.0.8(vue@3.5.25(typescript@5.9.3))
       vue: 3.5.25(typescript@5.9.3)
 
-  '@v-c/dialog@0.0.3(vue@3.5.25(typescript@5.9.3))':
+  '@v-c/dialog@0.0.4(vue@3.5.25(typescript@5.9.3))':
     dependencies:
-      '@v-c/portal': 1.0.2(vue@3.5.25(typescript@5.9.3))
+      '@v-c/portal': 1.0.3(vue@3.5.25(typescript@5.9.3))
       '@v-c/util': 1.0.8(vue@3.5.25(typescript@5.9.3))
       vue: 3.5.25(typescript@5.9.3)
 
-  '@v-c/drawer@0.0.3(vue@3.5.25(typescript@5.9.3))':
+  '@v-c/drawer@0.0.4(vue@3.5.25(typescript@5.9.3))':
     dependencies:
-      '@v-c/portal': 1.0.2(vue@3.5.25(typescript@5.9.3))
+      '@v-c/portal': 1.0.3(vue@3.5.25(typescript@5.9.3))
       '@v-c/util': 1.0.8(vue@3.5.25(typescript@5.9.3))
       vue: 3.5.25(typescript@5.9.3)
 
@@ -7054,6 +7059,11 @@ snapshots:
       dayjs: 1.11.19
 
   '@v-c/portal@1.0.2(vue@3.5.25(typescript@5.9.3))':
+    dependencies:
+      '@v-c/util': 1.0.8(vue@3.5.25(typescript@5.9.3))
+      vue: 3.5.25(typescript@5.9.3)
+
+  '@v-c/portal@1.0.3(vue@3.5.25(typescript@5.9.3))':
     dependencies:
       '@v-c/util': 1.0.8(vue@3.5.25(typescript@5.9.3))
       vue: 3.5.25(typescript@5.9.3)
