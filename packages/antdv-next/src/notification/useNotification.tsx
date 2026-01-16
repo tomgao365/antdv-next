@@ -101,7 +101,7 @@ const Holder = defineComponent<HolderProps>(
     const getNotificationMotion = () => getMotion(prefixCls.value)
 
     // ============================== Origin ===============================
-    const [api, holder] = useVcNotification({
+    const vcConfig = computed(() => ({
       prefixCls: prefixCls.value,
       style: getStyle,
       className: getClassName,
@@ -121,7 +121,9 @@ const Holder = defineComponent<HolderProps>(
             offset: 8,
             gap: token.value?.margin,
           },
-    })
+
+    }))
+    const [api, holder] = useVcNotification(vcConfig as any)
 
     const mergedProps = computed(() => props)
     const [mergedClassNames, mergedStyles] = useMergeSemantic<
@@ -258,7 +260,7 @@ export function useInternalNotification(
           contextClassName,
           mergedClassNames.root,
         ),
-        style: { ...contextStyle, ...mergedStyles.root, ...style },
+        style: { ...contextStyle, ...mergedStyles.root, ...style } as any,
         closable: mergedClosable,
       })
     }

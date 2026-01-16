@@ -42,7 +42,7 @@ catalog:
   '@v-c/mentions': ^0.0.1
   '@v-c/menu': ^1.0.5
   '@v-c/mutate-observer': ^0.0.2
-  '@v-c/notification': ^0.0.2
+  '@v-c/notification': ^0.0.3
   '@v-c/pagination': ^0.0.1
   '@v-c/picker': ^0.0.5
   '@v-c/progress': ^0.0.2
