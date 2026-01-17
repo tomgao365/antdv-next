@@ -1,27 +1,48 @@
 <script setup lang="ts">
 import type { VNode } from 'vue'
 import type { DocPage } from '@/composables/doc-page.ts'
-import { computed, inject, useSlots } from 'vue'
+import { filterEmpty } from '@v-c/util/dist/props-util'
+import { computed, inject, onMounted, onUnmounted, ref, useSlots } from 'vue'
 
 defineOptions({
   name: 'DemoGroup',
 })
 
 const props = defineProps<{
-  cols?: number // 允许外部手动覆盖列数
+  cols?: number
 }>()
 
 const slots = useSlots()
 const pageInfo = inject<DocPage | null>('__pageInfo__', null)
+const containerRef = ref<HTMLElement>()
 
 // 配置
 const gap = 8
+const minColumnWidth = 420 // 每列最小宽度，低于此值会减少列数
 
-// 从 frontmatter 或 props 获取列数配置 (默认为 1)
-const colCount = computed(() => {
+const configuredCols = computed(() => {
   if (props.cols)
     return props.cols
   return pageInfo?.frontmatter?.demo?.cols || 1
+})
+
+// 响应式：根据容器宽度计算实际列数
+const containerWidth = ref(0)
+const actualCols = computed(() => {
+  const configured = configuredCols.value
+  if (configured <= 1)
+    return 1
+
+  // 如果容器宽度未知，默认使用配置的列数
+  if (containerWidth.value === 0)
+    return configured
+
+  // 计算当前宽度能容纳的最大列数
+  // 公式：(containerWidth + gap) / (minColumnWidth + gap)
+  const maxPossibleCols = Math.floor((containerWidth.value + gap) / (minColumnWidth + gap))
+
+  // 取配置列数和可容纳列数的较小值，至少为 1
+  return Math.max(1, Math.min(configured, maxPossibleCols))
 })
 
 /**
@@ -36,7 +57,7 @@ const columns = computed(() => {
     return []
 
   // 获取所有子节点，过滤掉空白节点
-  const children = flattenVNodes(defaultSlot).filter((node) => {
+  const children = filterEmpty(defaultSlot).filter((node) => {
     // 过滤掉文本节点、注释节点等
     if (typeof node === 'string' || typeof node === 'number')
       return false
@@ -48,7 +69,7 @@ const columns = computed(() => {
     return true
   })
 
-  const cols = colCount.value
+  const cols = actualCols.value
   if (cols <= 1) {
     // 单列模式，所有元素放在一个列中
     return [children]
@@ -67,30 +88,37 @@ const columns = computed(() => {
   return result
 })
 
-/**
- * 展平 VNode 数组，处理 Fragment
- */
-function flattenVNodes(vnodes: VNode[]): VNode[] {
-  const result: VNode[] = []
-  for (const node of vnodes) {
-    if (node.type === Symbol.for('v-fgt') && Array.isArray(node.children)) {
-      // Fragment 节点，递归展平
-      result.push(...flattenVNodes(node.children as VNode[]))
-    }
-    else {
-      result.push(node)
-    }
-  }
-  return result
-}
-
 const containerStyle = computed(() => ({
   '--gap': `${gap}px`,
 }))
+
+// 响应式监听容器宽度
+let resizeObserver: ResizeObserver | null = null
+
+function updateContainerWidth() {
+  if (containerRef.value) {
+    containerWidth.value = containerRef.value.offsetWidth
+  }
+}
+
+onMounted(() => {
+  updateContainerWidth()
+  if (containerRef.value && window.ResizeObserver) {
+    resizeObserver = new ResizeObserver(() => {
+      window.requestAnimationFrame(updateContainerWidth)
+    })
+    resizeObserver.observe(containerRef.value)
+  }
+})
+
+onUnmounted(() => {
+  resizeObserver?.disconnect()
+})
 </script>
 
 <template>
   <div
+    ref="containerRef"
     class="ant-doc-demo-group"
     :style="containerStyle"
     :class="pageInfo?.frontmatter?.demo?.class"
