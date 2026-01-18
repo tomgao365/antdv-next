@@ -7,12 +7,17 @@ export { getValue, setValue }
 
 /**
  * Convert name to internal supported format.
- * This function should keep since we still thinking if need support like `a.b.c` format.
+ * Support formats:
  * 'a' => ['a']
+ * 'a.b.c' => ['a', 'b', 'c']
  * 123 => [123]
  * ['a', 123] => ['a', 123]
+ * ['a', 'b', 'c'] => ['a', 'b', 'c']
  */
 export function getNamePath(path: NamePath | null): InternalNamePath {
+  if (typeof path === 'string') {
+    return path.split('.')
+  }
   return toArray(path)
 }
 

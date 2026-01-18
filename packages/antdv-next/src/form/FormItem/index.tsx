@@ -3,7 +3,7 @@ import type { ComponentBaseProps } from '../../config-provider/context'
 import type { FormItemLayout } from '../Form'
 import type { FormItemInputProps } from '../FormItemInput'
 import type { FormItemLabelProps, LabelTooltipType } from '../FormItemLabel'
-import type { InternalNamePath, Meta, Rule, RuleError, RuleObject, ValidateOptions } from '../types'
+import type { InternalNamePath, Meta, NamePath, Rule, RuleError, RuleObject, ValidateOptions } from '../types'
 import type { ItemHolderProps } from './ItemHolder.tsx'
 import { clsx } from '@v-c/util'
 import { filterEmpty } from '@v-c/util/dist/props-util'
@@ -36,7 +36,7 @@ export type FeedbackIcons = (itemStatus: {
 }) => { [key in ValidateStatus]?: any }
 
 interface BaseFormItemProps {
-  name?: string
+  name?: NamePath
   rules?: Rule[]
   trigger?: string
   validateTrigger?: string | string[] | false
@@ -144,7 +144,7 @@ const InternalFormItem = defineComponent<
         variables.label = props.label
       }
       else if (props.name) {
-        variables.label = String(props.name)
+        variables.label = Array.isArray(props.name) ? props.name.join('.') : String(props.name)
       }
       if (props.messageVariables) {
         variables = { ...variables, ...props.messageVariables }
