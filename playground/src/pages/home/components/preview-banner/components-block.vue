@@ -20,7 +20,7 @@ const locales = computed(() => {
   return {
     'zh-CN': {
       range: '设置范围',
-      text: 'Ant Design 使用 CSS-in-JS 技术以提供动态与混合主题的能力。与此同时,我们使用组件级别的 CSS-in-JS 解决方案,让你的应用获得更好的性能。',
+      text: 'Antdv Next 使用 CSS-in-JS 技术以提供动态与混合主题的能力。与此同时,我们使用组件级别的 CSS-in-JS 解决方案,让你的应用获得更好的性能。',
       infoText: '信息内容展示',
       dropdown: '下拉菜单',
       finished: '已完成',
@@ -36,12 +36,12 @@ const locales = computed(() => {
       default: '默认按钮',
       dashed: '虚线按钮',
       icon: '图标按钮',
-      hello: '你好,Ant Design!',
-      release: 'Ant Design 6.0 正式发布!',
+      hello: '你好,Antdv Next!',
+      release: 'Antdv Next 1.0 正式发布!',
     },
     'en-US': {
       range: 'Set Range',
-      text: 'Ant Design use CSS-in-JS technology to provide dynamic & mix theme ability. And which use component level CSS-in-JS solution get your application a better performance.',
+      text: 'Antdv Next use CSS-in-JS technology to provide dynamic & mix theme ability. And which use component level CSS-in-JS solution get your application a better performance.',
       infoText: 'Info Text',
       dropdown: 'Dropdown',
       finished: 'Finished',
@@ -57,8 +57,8 @@ const locales = computed(() => {
       default: 'Default',
       dashed: 'Dashed',
       icon: 'Icon',
-      hello: 'Hello, Ant Design!',
-      release: 'Ant Design 6.0 is released!',
+      hello: 'Hello, Antdv Next!',
+      release: 'Antdv Next 1.0 is released!',
     },
   }[locale.value]
 })
@@ -186,7 +186,7 @@ const checkboxOptions = computed(() => [
       <InternalMessage :content="locales.release" type="success" />
     </div>
     <InternalTooltip :title="locales.hello" placement="topLeft" class="noMargin" />
-    <a-alert title="Ant Design love you!" type="success" />
+    <a-alert title="Antdv Next love you!" type="success" />
   </Tilt>
 </template>
 
