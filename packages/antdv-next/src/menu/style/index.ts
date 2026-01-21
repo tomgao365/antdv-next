@@ -426,7 +426,7 @@ function genMenuItemStyle(token: MenuToken): CSSObject {
       cursor: 'pointer',
       transition: [
         `border-color ${motionDurationSlow}`,
-        `background ${motionDurationSlow}`,
+        `background-color ${motionDurationSlow}`,
         `padding calc(${motionDurationSlow} + 0.1s) ${motionEaseInOut}`,
       ].join(','),
 
@@ -515,7 +515,7 @@ function genSubMenuArrowStyle(token: MenuToken): CSSObject {
           backgroundColor: 'currentcolor',
           borderRadius,
           transition: [
-            `background ${motionDurationSlow} ${motionEaseInOut}`,
+            `background-color ${motionDurationSlow} ${motionEaseInOut}`,
             `transform ${motionDurationSlow} ${motionEaseInOut}`,
             `top ${motionDurationSlow} ${motionEaseInOut}`,
             `color ${motionDurationSlow} ${motionEaseInOut}`,
@@ -619,14 +619,14 @@ const getBaseStyle: GenerateStyle<MenuToken> = (token) => {
         [`&-horizontal ${componentCls}-submenu`]: {
           transition: [
             `border-color ${motionDurationSlow} ${motionEaseInOut}`,
-            `background ${motionDurationSlow} ${motionEaseInOut}`,
+            `background-color ${motionDurationSlow} ${motionEaseInOut}`,
           ].join(','),
         },
 
         [`${componentCls}-submenu, ${componentCls}-submenu-inline`]: {
           transition: [
             `border-color ${motionDurationSlow} ${motionEaseInOut}`,
-            `background ${motionDurationSlow} ${motionEaseInOut}`,
+            `background-color ${motionDurationSlow} ${motionEaseInOut}`,
             `padding ${motionDurationMid} ${motionEaseInOut}`,
           ].join(','),
         },
@@ -634,7 +634,7 @@ const getBaseStyle: GenerateStyle<MenuToken> = (token) => {
         [`${componentCls}-submenu ${componentCls}-sub`]: {
           cursor: 'initial',
           transition: [
-            `background ${motionDurationSlow} ${motionEaseInOut}`,
+            `background-color ${motionDurationSlow} ${motionEaseInOut}`,
             `padding ${motionDurationSlow} ${motionEaseInOut}`,
           ].join(','),
         },

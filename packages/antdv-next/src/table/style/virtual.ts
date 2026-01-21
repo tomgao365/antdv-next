@@ -28,7 +28,7 @@ const genVirtualStyle: GenerateStyle<TableToken, CSSObject> = (token) => {
 
         [`${componentCls}-cell`]: {
           borderBottom: tableBorder,
-          transition: `background ${motionDurationMid}`,
+          transition: `background-color ${motionDurationMid}`,
         },
 
         [`${componentCls}-expanded-row`]: {
