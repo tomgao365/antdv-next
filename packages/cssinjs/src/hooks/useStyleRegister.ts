@@ -20,7 +20,7 @@ import {
   CSS_IN_JS_INSTANCE,
   useStyleContext,
 } from '../StyleContext'
-import { isClientSide, toStyleStr } from '../util'
+import { isClientSide, isNonNullable, toStyleStr, where } from '../util'
 import {
   CSS_FILE_STYLE,
   existPath,
@@ -106,16 +106,13 @@ function isCompoundCSSProperty(value: CSSObject[string]) {
 function injectSelectorHash(
   key: string,
   hashId: string,
-  hashPriority?: HashPriority,
+  hashPriority: HashPriority = 'high',
 ) {
   if (!hashId) {
     return key
   }
 
-  const hashClassName = `.${hashId}`
-  const hashSelector
-    = hashPriority === 'low' ? `:where(${hashClassName})` : hashClassName
-
+  const hashSelector = where({ hashCls: hashId, hashPriority })
   // 注入 hashId
   const keys = key.split(',').map((k) => {
     const fullPath = k.trim().split(/\s+/)
@@ -339,7 +336,9 @@ export function parseStyle(
             })
           }
           else {
-            appendStyle(key, actualValue)
+            if (!isNonNullable(actualValue)) {
+              appendStyle(key, actualValue)
+            }
           }
         }
       })

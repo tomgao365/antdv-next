@@ -99,9 +99,10 @@ const genGridColStyle: GenerateStyle<GridColToken> = (token): CSSObject => {
 }
 
 function genLoopGridColumnsStyle(token: GridColToken, sizeCls: string): CSSObject {
-  const { prefixCls, componentCls, gridColumns, antCls } = token
+  const { componentCls, gridColumns, antCls } = token
 
-  const [varName, varRef] = genCssVar(antCls, 'grid')
+  const [gridVarName, gridVarRef] = genCssVar(antCls, 'grid')
+  const [, colVarRef] = genCssVar(antCls, 'col')
 
   const gridColumnsStyle: CSSObject = {}
   for (let i = gridColumns; i >= 0; i--) {
@@ -134,12 +135,12 @@ function genLoopGridColumnsStyle(token: GridColToken, sizeCls: string): CSSObjec
         // Form set `display: flex` on Col which will override `display: block`.
         // Let's get it from css variable to support override.
         {
-          [varName('display')]: 'block',
+          [gridVarName('display')]: 'block',
           // Fallback to display if variable not support
           display: 'block',
         },
         {
-          display: varRef('display'),
+          display: gridVarRef('display'),
           flex: `0 0 ${(i / gridColumns) * 100}%`,
           maxWidth: `${(i / gridColumns) * 100}%`,
         },
@@ -161,7 +162,7 @@ function genLoopGridColumnsStyle(token: GridColToken, sizeCls: string): CSSObjec
 
   // Flex CSS Var
   gridColumnsStyle[`${componentCls}${sizeCls}-flex`] = {
-    flex: `var(--${prefixCls}${sizeCls}-flex)`,
+    flex: colVarRef(`${sizeCls.replace(/-/, '')}-flex`),
   }
 
   return gridColumnsStyle
@@ -207,14 +208,13 @@ export const useColStyle = genStyleHooks(
     })
     const gridMediaSizesMap: Record<string, number> = getMediaSize(gridToken)
     delete gridMediaSizesMap.xs
-
     return [
       genGridColStyle(gridToken),
       genGridStyle(gridToken, ''),
       genGridStyle(gridToken, '-xs'),
       Object.keys(gridMediaSizesMap)
-        .map(key => genGridMediaStyle(gridToken, (gridMediaSizesMap as any)[key], `-${key}`))
-        .reduce((pre, cur) => ({ ...pre, ...cur }), {}),
+        .map(key => genGridMediaStyle(gridToken, gridMediaSizesMap[key!]!, `-${key}`))
+        .reduce<CSSObject>((pre, cur) => ({ ...pre, ...cur }), {}),
     ]
   },
   prepareColComponentToken,

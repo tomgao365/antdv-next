@@ -4,6 +4,7 @@ import type { App, CSSProperties } from 'vue'
 import { classNames } from '@v-c/util'
 import { computed, defineComponent } from 'vue'
 import { useConfig } from '../config-provider/context.ts'
+import { genCssVar } from '../theme/util/genStyleUtils.ts'
 import { useRowContext } from './RowContext.ts'
 import { useColStyle } from './style'
 
@@ -36,8 +37,12 @@ export interface ColProps {
   xxl?: ColSpanType | ColSize
 }
 
+function isNumber(value: any): value is number {
+  return typeof value === 'number' && !Number.isNaN(value)
+}
+
 function parseFlex(flex: FlexType): string {
-  if (typeof flex === 'number') {
+  if (isNumber(flex)) {
     return `${flex} ${flex} auto`
   }
 
@@ -55,6 +60,8 @@ const Col = defineComponent<ColProps>(
     const { gutter, wrap } = useRowContext()
 
     const prefixCls = computed(() => configCtx.value?.getPrefixCls('col', props.prefixCls))
+    const rootPrefixCls = computed(() => configCtx.value?.getPrefixCls())
+    const [varName] = genCssVar(rootPrefixCls.value, 'col')
 
     const [hashId, cssVarCls] = useColStyle(prefixCls)
 
@@ -90,7 +97,7 @@ const Col = defineComponent<ColProps>(
         // Responsive flex layout
         if (sizeProps.flex) {
           sizeClassObj[`${prefixCls.value}-${size}-flex`] = true
-          sizeStyle[`--${prefixCls.value}-${size}-flex`] = parseFlex(sizeProps.flex)
+          sizeStyle[varName(`${size}-flex`)] = parseFlex(sizeProps.flex)
         }
       })
 
