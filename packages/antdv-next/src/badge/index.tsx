@@ -8,7 +8,7 @@ import type { PresetColorKey } from '../theme/interface'
 import type { RibbonProps } from './Ribbon.tsx'
 import { classNames } from '@v-c/util'
 import { filterEmpty } from '@v-c/util/dist/props-util'
-import { getTransitionGroupProps } from '@v-c/util/dist/utils/transition'
+import { getTransitionProps } from '@v-c/util/dist/utils/transition'
 import { cloneVNode, computed, defineComponent, shallowRef, Transition, watchEffect } from 'vue'
 import { isPresetColor } from '../_util/colors.ts'
 
@@ -277,7 +277,7 @@ const InternalBadge = defineComponent<
           {children}
           <Transition
             {
-              ...getTransitionGroupProps(`${prefixCls.value}-zoom`, { appear: false })
+              ...getTransitionProps(`${prefixCls.value}-zoom`, { appear: false })
             }
           >
             {{
