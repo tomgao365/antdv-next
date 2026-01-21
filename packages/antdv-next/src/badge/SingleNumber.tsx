@@ -59,7 +59,7 @@ export default defineComponent<SingleNumberProps>(
       const previousValue = prevValue.value
       const previousCount = prevCount.value
 
-      const renderUnit = (unitValue: number, offset = 0, current = false, key?: number | string) => {
+      const renderUnit = (unitValue: number | string, offset = 0, current = false, key?: number | string) => {
         const style = offset
           ? ({
               position: 'absolute',
@@ -82,7 +82,7 @@ export default defineComponent<SingleNumberProps>(
       let offsetStyle: CSSProperties | undefined
 
       if (previousValue === value || Number.isNaN(value) || Number.isNaN(previousValue)) {
-        unitNodes = [renderUnit(value, 0, true, value)]
+        unitNodes = [renderUnit(props.value, 0, true, value)]
         offsetStyle = { transition: 'none' }
       }
       else {
