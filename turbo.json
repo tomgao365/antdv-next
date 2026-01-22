@@ -3,15 +3,20 @@
   "ui": "tui",
   "tasks": {
     "build:token": {
+      "dependsOn": ["@antdv-next/cssinjs#build"],
       "cache": false,
       "outputs": []
     },
+    "@antdv-next/cssinjs#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
     "build": {
-      "dependsOn": ["^build", "antdv-next#build:token"],
+      "dependsOn": ["antdv-next#build:token", "^build"],
       "outputs": ["dist/**"]
     },
     "dev": {
-      "dependsOn": ["^build", "antdv-next#build:token"],
+      "dependsOn": ["antdv-next#build:token", "^build"],
       "cache": false,
       "persistent": true
     }
