@@ -90,6 +90,7 @@
     "build:web-types": "esno ./scripts/web-types/index.ts",
     "build:llm": "esno ./scripts/llm/generate-llms.ts",
     "build:llm-semantic": "esno ./scripts/llm/generate-llms-semantic.ts",
+    "build:style": "esno ./scripts/style/build-style.ts",
     "prepublish": "pnpm build",
     "bump": "bumpp --commit \"chore(release): antdv-next %s\" --push --tag \"antdv-next@%s\""
   },
@@ -150,6 +151,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@types/throttle-debounce": "^5.0.2"
+    "@types/throttle-debounce": "^5.0.2",
+    "@vue/server-renderer": "^3.5.27"
   }
 }

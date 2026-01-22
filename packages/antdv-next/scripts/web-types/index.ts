@@ -95,9 +95,9 @@ async function run() {
   const vscodeData = {
     version,
     tags: finalTags.map(tag => ({
-      name: tag.name,
-      description: tag.description,
-      attributes: tag.attributes.map(attribute => ({
+      name: tag?.name,
+      description: tag?.description,
+      attributes: tag?.attributes.map(attribute => ({
         name: attribute.name,
         description: `Default: ${attribute.default || '-'}\n\n${attribute.description}`,
       })),
