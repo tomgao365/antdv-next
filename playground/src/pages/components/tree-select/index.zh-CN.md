@@ -16,7 +16,7 @@ demo:
 
 类似 Select 的选择控件，可选择的数据结构是一个树形结构时，可以使用 TreeSelect，例如公司层级、学科系统、分类目录等等。
 
-## 示例 {#examples}
+## 代码演示 {#examples}
 
 <demo-group>
   <demo src="./demo/basic.vue">基本</demo>
@@ -36,7 +36,7 @@ demo:
 
 ## API
 
-### 属性 {#property}
+### 属性 {#props}
 
 通用属性参考：[通用属性](/docs/vue/common-props)
 
@@ -117,12 +117,14 @@ demo:
 | switcherIcon | 自定义树节点的展开/折叠图标 | () =&gt; any | - |
 | treeTitleRender | 自定义渲染节点 | (nodeData: DataNode) =&gt; any | - |
 
-### TreeSelect 方法 {#methods}
+### 方法 {#methods}
 
 | 名称 | 描述 | 版本 |
 | --- | --- | --- |
 | blur() | 移除焦点 | - |
 | focus() | 获取焦点 | - |
+
+## 类型 {#types}
 
 ### showSearch {#showsearch}
 

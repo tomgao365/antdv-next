@@ -31,7 +31,7 @@ demo:
 
 ## API
 
-### Props {#props}
+### Props
 
 Common props ref：[Common props](/docs/vue/common-props)
 
@@ -48,7 +48,7 @@ Common props ref：[Common props](/docs/vue/common-props)
 | labelRender | Custom rendering function for timeline label | (params: &#123; item: TimelineItemProps, index: number &#125;) =&gt; VueNode | - | - |
 | contentRender | Custom rendering function for timeline content | (params: &#123; item: TimelineItemProps, index: number &#125;) =&gt; VueNode | - | - |
 
-### Slots {#slots}
+### Slots
 
 | Slot | Description | Type | Version |
 | --- | --- | --- | --- |

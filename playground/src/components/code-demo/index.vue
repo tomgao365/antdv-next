@@ -89,7 +89,7 @@ const demoStyle = computed(() => {
       <Suspense>
         <component :is="component" v-if="demo?.component" />
         <template #fallback>
-          <a-skeleton :paragraph="{ rows: 5 }" />
+          <a-skeleton active :paragraph="{ rows: 5 }" />
         </template>
       </Suspense>
     </section>

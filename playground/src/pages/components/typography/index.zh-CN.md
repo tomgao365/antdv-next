@@ -33,7 +33,7 @@ coverDark: https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*LT2jR41Uj2EAAA
 
 通用属性参考：[通用属性](/docs/vue/common-props)
 
-### Typography.Text {#typography-text}
+### TypographyText {#typography-text}
 
 #### 属性
 

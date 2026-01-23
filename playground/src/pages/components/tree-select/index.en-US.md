@@ -35,7 +35,7 @@ demo:
 
 ## API
 
-### Property {#property}
+### Props
 
 Common props ref：[Common props](/docs/vue/common-props)
 
@@ -91,7 +91,7 @@ Common props ref：[Common props](/docs/vue/common-props)
 | bordered | Deprecated. Use `variant` instead | boolean | - | - |
 | showArrow | Deprecated. Set `suffixIcon` to null to hide | boolean | - | - |
 
-### Events {#events}
+### Events
 
 | Event | Description | Type | Version |
 | --- | --- | --- | --- |
@@ -106,7 +106,7 @@ Common props ref：[Common props](/docs/vue/common-props)
 | popupScroll | Called when dropdown scrolls | NonNullable&lt;VcTreeSelectProps['onPopupScroll']&gt; | - |
 | search | A callback function, can be executed when the search input changes | NonNullable&lt;VcTreeSelectProps['onSearch']&gt; | - |
 
-### Slots {#slots}
+### Slots
 
 | Slot | Description | Type | Version |
 | --- | --- | --- | --- |
@@ -116,12 +116,14 @@ Common props ref：[Common props](/docs/vue/common-props)
 | switcherIcon | Customize collapse/expand icon of tree node | () =&gt; any | - |
 | treeTitleRender | Customize tree node title render | (nodeData: DataNode) =&gt; any | - |
 
-### Methods {#methods}
+### Methods
 
 | Name | Description | Version |
 | --- | --- | --- |
 | blur() | Remove focus | - |
 | focus() | Get focus | - |
+
+## Types
 
 ### showSearch {#showsearch}
 

@@ -17,7 +17,7 @@ demo:
 - 当有一系列信息需要按时间排列（升序或降序）时。
 - 当需要用时间轴来进行视觉连接时。
 
-## 示例 {#examples}
+## 代码演示 {#examples}
 
 <demo-group>
 <demo src="./demo/basic.vue">基本用法</demo>

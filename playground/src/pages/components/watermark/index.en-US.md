@@ -28,9 +28,9 @@ demo:
 
 ## API
 
-### Property {#property}
-
 Common props ref：[Common props](/docs/vue/common-props)
+
+### Props
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
@@ -42,9 +42,16 @@ Common props ref：[Common props](/docs/vue/common-props)
 | image | Image source, it is recommended to export 2x or 3x image, high priority (support base64 format) | string | - | - |
 | content | Watermark text content | string \| string[] | - | - |
 | font | Text style | [Font](#font) | [Font](#font) | - |
-| gap | The spacing between watermarks | [number, number] | \[100, 100\] | - |
-| offset | The offset of the watermark from the upper left corner of the container. The default is `gap/2` | [number, number] | \[gap\[0\]/2, gap\[1\]/2\] | - |
-| rootClass | Root container class | string | - | - |
+| gap | The spacing between watermarks | \[number, number\] | \[100, 100\] | - |
+| offset | The offset of the watermark from the upper left corner of the container. The default is `gap/2` | \[number, number\] | \[gap\[0\]/2, gap\[1\]/2\] | - |
+
+### Events
+
+| Event | Description | Type | Version |
+| --- | --- | --- | --- |
+| remove | Callback when the watermark is removed by DOM mutation | () => void | - |
+
+## Types {#types}
 
 ### Font {#font}
 

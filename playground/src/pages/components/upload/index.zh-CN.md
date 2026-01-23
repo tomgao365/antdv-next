@@ -20,7 +20,7 @@ demo:
 - 当需要展现上传的进度时。
 - 当需要使用拖拽交互时。
 
-## 示例 {#examples}
+## 代码演示 {#examples}
 
 <demo-group>
   <demo src="./demo/basic.vue">点击上传</demo>
@@ -30,7 +30,7 @@ demo:
   <demo src="./demo/picture-circle.vue">圆形照片墙</demo>
   <demo src="./demo/fileList.vue">完全控制的上传列表</demo>
   <demo src="./demo/drag.vue">拖拽上传</demo>
-  <demo src="./demo/paste.vue" version="5.25.0">粘贴上传</demo>
+  <demo src="./demo/paste.vue">粘贴上传</demo>
   <demo src="./demo/directory.vue">文件夹上传</demo>
   <demo src="./demo/upload-manually.vue">手动上传</demo>
   <demo src="./demo/upload-png-only.vue">只上传 png 图片</demo>
@@ -44,158 +44,62 @@ demo:
   <demo src="./demo/drag-sorting.vue">上传列表拖拽排序</demo>
   <demo src="./demo/crop-image.vue">上传前裁切图片</demo>
   <demo src="./demo/customize-progress-bar.vue">自定义进度条样式</demo>
-  <demo src="./demo/style-class.vue" version="6.0.0">自定义语义结构的样式和类</demo>
+  <demo src="./demo/style-class.vue">自定义语义结构的样式和类</demo>
   <demo src="./demo/component-token.vue" debug>组件 Token</demo>
 </demo-group>
 
 ## API
 
-### 属性 {#property}
-
 通用属性参考：[通用属性](/docs/vue/common-props)
 
-#### Dragger
+### 属性 {#props}
 
-| 属性 | 说明 | 类型 | 默认值 | 版本 |
+| 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| type | - | UploadType | - | - |
-| name | 发到后台的文件参数名 | string | `file` | - |
-| defaultFileList | 默认已经上传的文件列表 | Array&lt;UploadFile&lt;T&gt;&gt; | - | - |
-| fileList | 已经上传的文件列表（受控），使用此参数时，如果遇到 `onChange` 只调用一次的问题，请参考 [#2423](https://github.com/ant-design/ant-design/issues/2423) | Array&lt;UploadFile&lt;T&gt;&gt; | - | - |
-| action | 上传的地址 | string \| ((file: VcFile) =&gt; string) \| ((file: VcFile) =&gt; PromiseLike&lt;string&gt;) | - | - |
-| directory | 支持上传文件夹（[caniuse](https://caniuse.com/#feat=input-file-directory)） | boolean | false | - |
-| data | 上传所需额外参数或返回上传额外参数的方法 | \| Record&lt;string, unknown&gt;     \| ((file: UploadFile&lt;T&gt;) =&gt; Record&lt;string, unknown&gt; \| Promise&lt;Record&lt;string, unknown&gt;&gt;) | - | - |
-| method | 上传请求的 http method | 'POST' \| 'PUT' \| 'PATCH' \| 'post' \| 'put' \| 'patch' | `post` | - |
-| headers | 设置上传的请求头部，IE10 以上有效 | HttpRequestHeader | - | - |
-| showUploadList | 是否展示文件列表, 可设为一个对象，用于单独设定 `extra`(5.20.0+), `showPreviewIcon`, `showRemoveIcon`, `showDownloadIcon`, `removeIcon` 和 `downloadIcon` | boolean \| ShowUploadListInterface&lt;T&gt; | true | - |
-| multiple | 是否支持多选文件，`ie10+` 支持。开启后按住 ctrl 可选择多个文件 | boolean | false | - |
-| accept | 接受上传的文件类型，详见 [input accept Attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept) | string \| AcceptConfig | - | - |
-| beforeUpload | 上传文件之前的钩子，参数为上传的文件，若返回 `false` 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，resolve 时开始上传（ resolve 传入 `File` 或 `Blob` 对象则上传 resolve 传入对象）；也可以返回 `Upload.LIST_IGNORE`，此时列表中将不展示此文件。 **注意：IE9 不支持该方法** | (     file: VcFile,     fileList: VcFile[],   ) =&gt; BeforeUploadValueType \| Promise&lt;BeforeUploadValueType&gt; | - | - |
-| listType | 上传列表的内建样式，支持四种基本样式 `text`, `picture`, `picture-card` 和 `picture-circle` | UploadListType | `text` | - |
-| classes | 用于自定义组件内部各语义化结构的 class，支持对象或函数 | UploadClassNamesType&lt;T&gt; | - | - |
-| styles | 用于自定义组件内部各语义化结构的行内 style，支持对象或函数 | UploadStylesType&lt;T&gt; | - | - |
-| rootClass | - | string | - | - |
-| supportServerRender | - | boolean | - | - |
-| disabled | 是否禁用 | boolean | false | - |
-| prefixCls | - | string | - | - |
-| customRequest | 通过覆盖默认的上传行为，可以自定义自己的上传实现 | (     options: VcCustomRequestOptions&lt;T&gt;,     info: &#123;       /**        * @since 5.28.0        */       defaultRequest: (option: VcCustomRequestOptions&lt;T&gt;) =&gt; void     &#125;,   ) =&gt; void | - | - |
-| withCredentials | 上传请求时是否携带 cookie | boolean | false | - |
-| openFileDialogOnClick | 点击打开文件对话框 | boolean | true | - |
-| locale | - | UploadLocale | - | - |
-| id | - | string | - | - |
-| previewFile | 自定义文件预览逻辑 | PreviewFileHandler | - | - |
-| iconRender | 自定义显示 icon | (file: UploadFile&lt;T&gt;, listType?: UploadListType) =&gt; any | - | - |
-| isImageUrl | 自定义缩略图是否使用 &lt;img /&gt; 标签进行显示 | (file: UploadFile&lt;T&gt;) =&gt; boolean | [(内部实现)](https://github.com/ant-design/ant-design/blob/4ad5830eecfb87471cd8ac588c5d992862b70770/components/upload/utils.tsx#L47-L68) | - |
-| progress | 自定义进度条样式 | UploadListProgressProps | &#123; strokeWidth: 2, showInfo: false &#125; | - |
-| itemRender | 自定义上传列表项 | ItemRender&lt;T&gt; | - | - |
+| accept | 接受上传的文件类型，详见 [input accept Attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept) | string \| [AcceptObject](#acceptobject) | - |  |
+| action | 上传的地址 | string \| (file) => Promise&lt;string> | - |  |
+| beforeUpload | 上传文件之前的钩子，参数为上传的文件，若返回 `false` 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，resolve 时开始上传（ resolve 传入 `File` 或 `Blob` 对象则上传 resolve 传入对象）；也可以返回 `Upload.LIST_IGNORE`，此时列表中将不展示此文件。 **注意：IE9 不支持该方法** | (file: [RcFile](#rcfile), fileList: [RcFile[]](#rcfile)) => boolean \| Promise&lt;File> \| `Upload.LIST_IGNORE` | - |  |
+| customRequest | 通过覆盖默认的上传行为，可以自定义自己的上传实现 | ( options: [RequestOptions](#request-options), info: { defaultRequest: (option: [RequestOptions](#request-options)) => void; } ) => void | - | - |
+| classes | 用于自定义组件内部各语义化结构的 class，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), string> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), string> | - |  |
+| data | 上传所需额外参数或返回上传额外参数的方法 | object\|(file) => object \| Promise&lt;object> | - |  |
+| directory | 支持上传文件夹（[caniuse](https://caniuse.com/#feat=input-file-directory)） | boolean | false |  |
+| disabled | 是否禁用 | boolean | false | 对于自定义 Upload children 时请将 disabled 属性同时传给 child node 确保 disabled 渲染效果保持一致 |
+| fileList | 已经上传的文件列表（受控），使用此参数时，如果遇到 `onChange` 只调用一次的问题，请参考 [#2423](https://github.com/ant-design/ant-design/issues/2423) | [UploadFile](#uploadfile)\[] | - |  |
+| headers | 设置上传的请求头部，IE10 以上有效 | object | - |  |
+| iconRender | 自定义显示 icon | (file: UploadFile, listType?: UploadListType) => VueNode | - |  |
+| isImageUrl | 自定义缩略图是否使用 &lt;img /> 标签进行显示 | (file: UploadFile) => boolean | [(内部实现)](https://github.com/ant-design/ant-design/blob/4ad5830eecfb87471cd8ac588c5d992862b70770/components/upload/utils.tsx#L47-L68) |  |
+| itemRender | 自定义上传列表项 | (originNode: VueNode, file: UploadFile, fileList: object\[], actions: { download: function, preview: function, remove: function }) => React.VueNode | - | - |
+| listType | 上传列表的内建样式，支持四种基本样式 `text`, `picture`, `picture-card` 和 `picture-circle` | string | `text` | - |
 | maxCount | 限制上传数量。当为 1 时，始终用最新上传的文件代替当前文件 | number | - | - |
-| onRemove | 点击移除文件时的回调，返回值为 false 时不移除。支持返回一个 Promise 对象，Promise 对象 resolve(false) 或 reject 时不移除 | (file: UploadFile&lt;T&gt;) =&gt; void \| boolean \| Promise&lt;void \| boolean&gt; | - | - |
-| onPreview | 点击文件链接或预览图标时的回调 | (file: UploadFile&lt;T&gt;) =&gt; void | - | - |
-| onDownload | 点击下载文件时的回调，如果没有指定，则默认跳转到文件 url 对应的标签页 | (file: UploadFile&lt;T&gt;) =&gt; void | (跳转新标签页) | - |
-| capture | - | string \| boolean | - | - |
-| hasControlInside | - | boolean | - | - |
+| method | 上传请求的 http method | string | `post` |  |
+| multiple | 是否支持多选文件，`ie10+` 支持。开启后按住 ctrl 可选择多个文件 | boolean | false |  |
+| name | 发到后台的文件参数名 | string | `file` |  |
+| openFileDialogOnClick | 点击打开文件对话框 | boolean | true |  |
 | pastable | 是否支持粘贴文件 | boolean | false | - |
-| height | - | number | - | - |
-
-#### UploadList
-
-| 属性 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- |
-| classes | 用于自定义组件内部各语义化结构的 class，支持对象或函数 | UploadClassNamesType&lt;T&gt; | - | - |
-| styles | 用于自定义组件内部各语义化结构的行内 style，支持对象或函数 | UploadStylesType&lt;T&gt; | - | - |
-| listType | 上传列表的内建样式，支持四种基本样式 `text`, `picture`, `picture-card` 和 `picture-circle` | UploadListType | `text` | - |
-| items | - | Array&lt;UploadFile&lt;T&gt;&gt; | - | - |
-| progress | 自定义进度条样式 | UploadListProgressProps | &#123; strokeWidth: 2, showInfo: false &#125; | - |
-| prefixCls | - | string | - | - |
-| showRemoveIcon | - | boolean \| ((file: UploadFile&lt;T&gt;) =&gt; boolean) | - | - |
-| showDownloadIcon | - | boolean \| ((file: UploadFile&lt;T&gt;) =&gt; boolean) | - | - |
-| showPreviewIcon | - | boolean \| ((file: UploadFile&lt;T&gt;) =&gt; boolean) | - | - |
-| removeIcon | - | any \| ((file: UploadFile&lt;T&gt;) =&gt; any) | - | - |
-| downloadIcon | - | any \| ((file: UploadFile&lt;T&gt;) =&gt; any) | - | - |
-| previewIcon | - | any \| ((file: UploadFile&lt;T&gt;) =&gt; any) | - | - |
-| extra | - | any \| ((file: UploadFile&lt;T&gt;) =&gt; any) | - | - |
-| locale | - | UploadLocale | - | - |
-| previewFile | 自定义文件预览逻辑 | PreviewFileHandler | - | - |
-| iconRender | 自定义显示 icon | (file: UploadFile&lt;T&gt;, listType?: UploadListType) =&gt; any | - | - |
-| isImageUrl | 自定义缩略图是否使用 &lt;img /&gt; 标签进行显示 | (file: UploadFile&lt;T&gt;) =&gt; boolean | [(内部实现)](https://github.com/ant-design/ant-design/blob/4ad5830eecfb87471cd8ac588c5d992862b70770/components/upload/utils.tsx#L47-L68) | - |
-| appendAction | - | any | - | - |
-| appendActionVisible | - | boolean | - | - |
-| itemRender | 自定义上传列表项 | ItemRender&lt;T&gt; | - | - |
-| disabled | 是否禁用 | boolean | false | - |
-| onRemove | 点击移除文件时的回调，返回值为 false 时不移除。支持返回一个 Promise 对象，Promise 对象 resolve(false) 或 reject 时不移除 | (file: UploadFile&lt;T&gt;) =&gt; void \| boolean | - | - |
-| onPreview | 点击文件链接或预览图标时的回调 | (file: UploadFile&lt;T&gt;) =&gt; void | - | - |
-| onDownload | 点击下载文件时的回调，如果没有指定，则默认跳转到文件 url 对应的标签页 | (file: UploadFile&lt;T&gt;) =&gt; void | (跳转新标签页) | - |
-
-#### Upload
-
-| 属性 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- |
-| type | - | UploadType | - | - |
-| name | 发到后台的文件参数名 | string | `file` | - |
-| defaultFileList | 默认已经上传的文件列表 | Array&lt;UploadFile&lt;T&gt;&gt; | - | - |
-| fileList | 已经上传的文件列表（受控），使用此参数时，如果遇到 `onChange` 只调用一次的问题，请参考 [#2423](https://github.com/ant-design/ant-design/issues/2423) | Array&lt;UploadFile&lt;T&gt;&gt; | - | - |
-| action | 上传的地址 | string \| ((file: VcFile) =&gt; string) \| ((file: VcFile) =&gt; PromiseLike&lt;string&gt;) | - | - |
-| directory | 支持上传文件夹（[caniuse](https://caniuse.com/#feat=input-file-directory)） | boolean | false | - |
-| data | 上传所需额外参数或返回上传额外参数的方法 | \| Record&lt;string, unknown&gt;     \| ((file: UploadFile&lt;T&gt;) =&gt; Record&lt;string, unknown&gt; \| Promise&lt;Record&lt;string, unknown&gt;&gt;) | - | - |
-| method | 上传请求的 http method | 'POST' \| 'PUT' \| 'PATCH' \| 'post' \| 'put' \| 'patch' | `post` | - |
-| headers | 设置上传的请求头部，IE10 以上有效 | HttpRequestHeader | - | - |
-| showUploadList | 是否展示文件列表, 可设为一个对象，用于单独设定 `extra`(5.20.0+), `showPreviewIcon`, `showRemoveIcon`, `showDownloadIcon`, `removeIcon` 和 `downloadIcon` | boolean \| ShowUploadListInterface&lt;T&gt; | true | - |
-| multiple | 是否支持多选文件，`ie10+` 支持。开启后按住 ctrl 可选择多个文件 | boolean | false | - |
-| accept | 接受上传的文件类型，详见 [input accept Attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept) | string \| AcceptConfig | - | - |
-| beforeUpload | 上传文件之前的钩子，参数为上传的文件，若返回 `false` 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，resolve 时开始上传（ resolve 传入 `File` 或 `Blob` 对象则上传 resolve 传入对象）；也可以返回 `Upload.LIST_IGNORE`，此时列表中将不展示此文件。 **注意：IE9 不支持该方法** | (     file: VcFile,     fileList: VcFile[],   ) =&gt; BeforeUploadValueType \| Promise&lt;BeforeUploadValueType&gt; | - | - |
-| listType | 上传列表的内建样式，支持四种基本样式 `text`, `picture`, `picture-card` 和 `picture-circle` | UploadListType | `text` | - |
-| classes | 用于自定义组件内部各语义化结构的 class，支持对象或函数 | UploadClassNamesType&lt;T&gt; | - | - |
-| styles | 用于自定义组件内部各语义化结构的行内 style，支持对象或函数 | UploadStylesType&lt;T&gt; | - | - |
-| rootClass | - | string | - | - |
-| supportServerRender | - | boolean | - | - |
-| disabled | 是否禁用 | boolean | false | - |
-| prefixCls | - | string | - | - |
-| customRequest | 通过覆盖默认的上传行为，可以自定义自己的上传实现 | (     options: VcCustomRequestOptions&lt;T&gt;,     info: &#123;       /**        * @since 5.28.0        */       defaultRequest: (option: VcCustomRequestOptions&lt;T&gt;) =&gt; void     &#125;,   ) =&gt; void | - | - |
-| withCredentials | 上传请求时是否携带 cookie | boolean | false | - |
-| openFileDialogOnClick | 点击打开文件对话框 | boolean | true | - |
-| locale | - | UploadLocale | - | - |
-| id | - | string | - | - |
-| previewFile | 自定义文件预览逻辑 | PreviewFileHandler | - | - |
-| iconRender | 自定义显示 icon | (file: UploadFile&lt;T&gt;, listType?: UploadListType) =&gt; any | - | - |
-| isImageUrl | 自定义缩略图是否使用 &lt;img /&gt; 标签进行显示 | (file: UploadFile&lt;T&gt;) =&gt; boolean | [(内部实现)](https://github.com/ant-design/ant-design/blob/4ad5830eecfb87471cd8ac588c5d992862b70770/components/upload/utils.tsx#L47-L68) | - |
-| progress | 自定义进度条样式 | UploadListProgressProps | &#123; strokeWidth: 2, showInfo: false &#125; | - |
-| itemRender | 自定义上传列表项 | ItemRender&lt;T&gt; | - | - |
-| maxCount | 限制上传数量。当为 1 时，始终用最新上传的文件代替当前文件 | number | - | - |
-| onRemove | 点击移除文件时的回调，返回值为 false 时不移除。支持返回一个 Promise 对象，Promise 对象 resolve(false) 或 reject 时不移除 | (file: UploadFile&lt;T&gt;) =&gt; void \| boolean \| Promise&lt;void \| boolean&gt; | - | - |
-| onPreview | 点击文件链接或预览图标时的回调 | (file: UploadFile&lt;T&gt;) =&gt; void | - | - |
-| onDownload | 点击下载文件时的回调，如果没有指定，则默认跳转到文件 url 对应的标签页 | (file: UploadFile&lt;T&gt;) =&gt; void | (跳转新标签页) | - |
-| capture | - | string \| boolean | - | - |
-| hasControlInside | - | boolean | - | - |
-| pastable | 是否支持粘贴文件 | boolean | false | - |
+| previewFile | 自定义文件预览逻辑 | (file: File \| Blob) => Promise&lt;dataURL: string> | - |  |
+| progress | 自定义进度条样式 | [ProgressProps](/components/progress-cn#api)（仅支持 `type="line"`） | { strokeWidth: 2, showInfo: false } | - |
+| showUploadList | 是否展示文件列表, 可设为一个对象，用于单独设定 `extra`, `showPreviewIcon`, `showRemoveIcon`, `showDownloadIcon`, `removeIcon` 和 `downloadIcon` | boolean \| { extra?: VueNode \| (file: UploadFile) => VueNode, showPreviewIcon?: boolean \| (file: UploadFile) => boolean, showDownloadIcon?: boolean \| (file: UploadFile) => boolean, showRemoveIcon?: boolean \| (file: UploadFile) => boolean, previewIcon?: VueNode \| (file: UploadFile) => VueNode, removeIcon?: VueNode \| (file: UploadFile) => VueNode, downloadIcon?: VueNode \| (file: UploadFile) => VueNode } | true | - |
+| styles | 用于自定义组件内部各语义化结构的行内 style，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), CSSProperties> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), CSSProperties> | - |  |
+| withCredentials | 上传请求时是否携带 cookie | boolean | false |  |
 
 ### 事件 {#events}
 
-| 事件 | 说明 | 类型 | 版本 |
-| --- | --- | --- | --- |
-| change | 上传文件改变时的回调，上传每个阶段都会触发该事件。详见 [onChange](#onchange) | (info: UploadChangeParam&lt;UploadFile&lt;T&gt;&gt;) =&gt; void | - |
-| drop | 当文件被拖入上传区域时执行的回调功能 | (event: DragEvent) =&gt; void | - |
-| update:fileList | - | (fileList: UploadFile&lt;T&gt;[]) =&gt; void | - |
+| 参数 | 说明 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | --- | --- |
+| change | 上传文件改变时的回调，上传每个阶段都会触发该事件。详见 [onChange](#onchange) | function | - |  |
+| drop | 当文件被拖入上传区域时执行的回调功能 | (event: React.DragEvent) => void | - | - |
+| download | 点击下载文件时的回调，如果没有指定，则默认跳转到文件 url 对应的标签页 | function(file): void | (跳转新标签页) |  |
+| preview | 点击文件链接或预览图标时的回调 | function(file) | - |  |
+| remove | 点击移除文件时的回调，返回值为 false 时不移除。支持返回一个 Promise 对象，Promise 对象 resolve(false) 或 reject 时不移除 | function(file): boolean \| Promise | - |  |
 
 ### 插槽 {#slots}
 
-| 插槽 | 说明 | 类型 | 版本 |
-| --- | --- | --- | --- |
-| iconRender | 自定义显示 icon | (props: &#123; file: UploadFile&lt;T&gt;, listType?: UploadListType &#125;) =&gt; any | - |
-| itemRender | 自定义上传列表项 | (props: &#123;     originNode: any     file: UploadFile&lt;T&gt;     fileList: Array&lt;UploadFile&lt;T&gt;&gt;     actions: &#123;       download: () =&gt; void       preview: () =&gt; void       remove: () =&gt; void     &#125;   &#125;) =&gt; any | - |
+| 参数 | 说明 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | --- | --- |
+| itemRender | 自定义上传列表项 | ( ctx:\{ originNode: VNode, file: UploadFile, fileList: object\[], actions: \{ download: function, preview: function, remove: function \}\}) => VueNode | - | - |
+| iconRender | 自定义显示 icon | (ctx:\{ file: UploadFile, listType?: UploadListType\}) => VueNode | - |  |
 
-### 方法 {#methods}
-
-| 方法 | 说明 | 类型 | 版本 |
-| --- | --- | --- | --- |
-| onBatchStart | - | VcUploadProps['onBatchStart'] | - |
-| onSuccess | - | (response: any, file: VcFile, xhr: any) =&gt; void | - |
-| onProgress | - | (e: &#123; percent: number &#125;, file: VcFile) =&gt; void | - |
-| onError | - | (error: Error, response: any, file: VcFile) =&gt; void | - |
-| fileList | - | UploadFile&lt;T&gt;[] | - |
-| upload | - | any \| null | - |
-| nativeElement | Get native element for wrapping upload | HTMLSpanElement \| null | - |
-
-## 接口 {#interface}
+## 类型 {#types}
 
 ### VcFile {#vcfile}
 
@@ -206,13 +110,13 @@ demo:
 | uid | 唯一标识符，不设置时会自动生成 | string | - | - |
 | lastModifiedDate | 上次修改文件的日期和时间 | date | - | - |
 
-### UploadFile {#uploadfile}
+### UploadFile
 
 继承自 [File](https://developer.mozilla.org/zh-CN/docs/Web/API/File)，附带额外属性用于渲染。
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| crossorigin | CORS 属性设置 | `'anonymous'` \| `'use-credentials'` \| `''` | - | - |
+| crossOrigin | CORS 属性设置 | `'anonymous'` \| `'use-credentials'` \| `''` | - | - |
 | name | 文件名 | string | - | - |
 | percent | 上传进度 | number | - | - |
 | status | 上传状态，不同状态展示颜色也会有所不同 | `error` \| `done` \| `uploading` \| `removed` | - | - |
@@ -220,20 +124,20 @@ demo:
 | uid | 唯一标识符，不设置时会自动生成 | string | - | - |
 | url | 下载地址 | string | - | - |
 
-### VcCustomRequestOptions {#request-options}
+### RequestOptions {#request-options}
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | action | 上传的地址 | string | - | - |
-| data | 上传所需额外参数或返回上传额外参数的方法 | Record&lt;string, unknown&gt; | - | - |
+| data | 上传所需额外参数或返回上传额外参数的方法 | Record<string, unknown> | - | - |
 | filename | 文件名 | string | - | - |
-| file | 文件信息 | UploadFile | - | - |
+| file | 文件信息 | [UploadFile](#uploadfile) | - | - |
 | withCredentials | 上传请求时是否携带 cookie | boolean | - | - |
-| headers | 上传的请求头部 | Record&lt;string, string&gt; | - | - |
+| headers | 上传的请求头部 | Record<string, string> | - | - |
 | method | 上传请求的 http method | string | - | - |
-| onProgress | 上传进度回调 | (event: object, file: UploadFile) =&gt; void | - | - |
-| onError | 上传失败回调 | (event: object, body?: object) =&gt; void | - | - |
-| onSuccess | 上传成功回调 | (body: object, fileOrXhr?: UploadFile \| XMLHttpRequest) =&gt; void | - | - |
+| onProgress | 上传进度回调 | (event: object, file: UploadFile) => void | - | - |
+| onError | 上传失败回调 | (event: object, body?: object) => void | - | - |
+| onSuccess | 上传成功回调 | (body: object, fileOrXhr?: UploadFile \| XMLHttpRequest) => void | - | - |
 
 ### onChange {#onchange}
 
@@ -312,7 +216,7 @@ demo:
 
 ### 为何 `fileList` 受控时，上传不在列表中的文件不会触发 `onChange` 后续的 `status` 更新事件？ {#faq-filelist-controlled-status}
 
-`onChange` 事件仅会作用于在列表中的文件，因而 `fileList` 不存在对应文件时后续事件会被忽略。请注意，在 `4.13.0` 版本之前受控状态存在 bug 导致不在列表中的文件也会触发。
+`onChange` 事件仅会作用于在列表中的文件，因而 `fileList` 不存在对应文件时后续事件会被忽略。
 
 ### `onChange` 为什么有时候返回 File 有时候返回 `{ originFileObj: File }`？ {#faq-on-change-return-type}
 
@@ -341,5 +245,5 @@ accept = {
   format: `.${'n'.repeat(100)}`,
   // 当选择文件夹后，接受所有文件夹内的文件
   filter: () => true,
-};
+}
 ```
