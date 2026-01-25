@@ -128,7 +128,7 @@ function changeDirection(value: 1 | 2) {
           <template v-if="!isMobile">
             <a-menu
               :selected-keys="headerKey"
-              class="h-full border-b-none ant-doc-header-menu"
+              class="h-full border-b-none! ant-doc-header-menu"
               mode="horizontal"
               :items="headerItems"
               @click="handleHeaderChange"

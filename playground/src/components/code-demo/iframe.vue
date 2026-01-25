@@ -36,6 +36,12 @@ function onLoad() {
   border-radius: var(--ant-border-radius-sm) var(--ant-border-radius-sm) 0 0;
   border-bottom: 1px solid rgba(5, 5, 5, 0.06);
 }
+
+.dark .code-box-iframe {
+  border-top-color: rgba(60, 60, 60, 0.7);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
 .code-box-iframe-spinning {
   position: absolute;
   top: 0;
@@ -73,5 +79,9 @@ function onLoad() {
   height: 1.2em;
   background-color: #fff;
   border-radius: var(--ant-border-radius-sm);
+}
+
+.dark .code-box-iframe::after {
+  background-color: #1f1f1f;
 }
 </style>

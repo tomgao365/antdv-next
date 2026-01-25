@@ -20,7 +20,7 @@ const IconLocales = {
   Filled: { 'zh-CN': '实底风格', 'en-US': 'Filled' },
   TwoTone: { 'zh-CN': '双色风格', 'en-US': 'TwoTone' },
 }
-const { locale } = storeToRefs(useAppStore())
+const { locale, darkMode } = storeToRefs(useAppStore())
 const allIcons = AntdIcons as Record<string, any>
 
 const theme = ref<ThemeType>('Outlined')
@@ -34,12 +34,13 @@ const options = computed(() => [
 ])
 
 const affixedStyle = computed(() => ({
-  boxShadow:
-    'rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px',
+  boxShadow: darkMode.value
+    ? 'rgba(0, 0, 0, 0.5) 0 6px 12px -2px, rgba(0, 0, 0, 0.6) 0 3px 7px -3px'
+    : 'rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px',
   padding: '8px',
   margin: '-8px',
   borderRadius: '8px',
-  backgroundColor: '#fff',
+  backgroundColor: darkMode.value ? '#141414' : '#fff',
 }))
 
 const normalizedSearchKey = computed(() => {
