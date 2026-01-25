@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, shallowRef } from 'vue'
+import { computed, onBeforeUnmount, onMounted, shallowRef } from 'vue'
+import { enqueueIframeLoad, onIframeLoaded } from './iframeQueue'
 
 defineOptions({
   name: 'CodeIframe',
@@ -8,21 +9,66 @@ const { src, height } = defineProps<{
   src: string
   height?: string
 }>()
+
+const containerRef = shallowRef<HTMLElement>()
+const shouldLoad = shallowRef(false)
+const loading = shallowRef(true)
+const isQueued = shallowRef(false)
+
+let observer: IntersectionObserver | null = null
+
 const httpSrc = computed(() => {
   if (src.startsWith('http')) {
     return src
   }
   return `/~demos/${src}`
 })
-const loading = shallowRef(true)
+
+const normalizedHeight = computed(() => {
+  if (!height)
+    return '300px'
+  // 如果是纯数字，加上 px 单位
+  return /^\d+$/.test(height) ? `${height}px` : height
+})
+
+const containerStyle = computed(() => ({
+  minHeight: loading.value ? normalizedHeight.value : undefined,
+}))
+
 function onLoad() {
   loading.value = false
+  onIframeLoaded()
 }
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting && !isQueued.value) {
+        isQueued.value = true
+        observer?.disconnect()
+        observer = null
+        // 加入队列，串行加载
+        enqueueIframeLoad(() => {
+          shouldLoad.value = true
+        })
+      }
+    },
+    { rootMargin: '200px' },
+  )
+  if (containerRef.value) {
+    observer.observe(containerRef.value)
+  }
+})
+
+onBeforeUnmount(() => {
+  observer?.disconnect()
+  observer = null
+})
 </script>
 
 <template>
-  <div class="code-box-iframe">
-    <iframe :src="httpSrc" border="none" class="w-full" :height="height" @load="onLoad" />
+  <div ref="containerRef" class="code-box-iframe" :style="containerStyle">
+    <iframe v-if="shouldLoad" :src="httpSrc" border="none" class="w-full" :height="height" @load="onLoad" />
     <div v-if="loading" class="code-box-iframe-spinning">
       <a-spin spinning />
     </div>

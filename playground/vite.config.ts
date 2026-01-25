@@ -51,6 +51,8 @@ export default defineConfig({
     ],
     include: [
       '@antdv-next/icons',
+      '@antdv-next/icons/all',
+      '@ant-design/icons-svg/es/asn/*',
     ],
   },
   resolve: {
