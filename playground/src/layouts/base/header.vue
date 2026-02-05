@@ -5,8 +5,8 @@ import { version } from 'antdv-next'
 import { storeToRefs } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import DocSearch from '@/components/doc-search/index.vue'
 import DirectionIcon from '@/components/icons/directionIcon.vue'
-import SearchIcon from '@/components/icons/search.vue'
 import { useMobile } from '@/composables/mobile'
 import { docsMenus } from '@/config/menu/docs'
 import { headerItems, headerLocales } from '@/config/menu/header'
@@ -25,7 +25,6 @@ const versions = ref([
 ])
 const { isMobile } = useMobile()
 const currentVersion = shallowRef(version)
-const searchValue = shallowRef()
 const router = useRouter()
 const handleHeaderChange: MenuEmits['click'] = (info) => {
   const key = info.key
@@ -122,8 +121,7 @@ function changeDirection(value: 1 | 2) {
       <a-col :xxl="20" :xl="19" :lg="18" :md="18" :sm="0" :xs="0">
         <div class="ant-doc-header-right flex items-center gap-sm h-full" :class="[direction === 'ltr' ? 'pr-[var(--ant-padding)]' : 'pl-[var(--ant-padding)]']">
           <div class="flex items-center m-0" :class="[direction === 'ltr' ? 'b-l-1 b-l-solid b-l-black/6' : 'b-r-1 b-r-solid b-r-black/6']" style="flex: auto">
-            <SearchIcon class="ant-doc-search-bar-svg" />
-            <input v-model="searchValue" class="ant-doc-search-bar-input" placeholder="输入关键字搜索...">
+            <DocSearch />
           </div>
           <template v-if="!isMobile">
             <a-menu

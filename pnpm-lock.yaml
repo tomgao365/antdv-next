@@ -5,6 +5,10 @@ settings:
   excludeLinksFromLockfile: false
 
 catalogs:
+  default:
+    flexsearch:
+      specifier: ^0.8.212
+      version: 0.8.212
   dev:
     '@antfu/eslint-config':
       specifier: ^7.2.0
@@ -207,7 +211,7 @@ catalogs:
       specifier: ^0.7.5
       version: 0.7.5
     '@vueuse/core':
-      specifier: 14.1.0
+      specifier: catalog:prod
       version: 14.1.0
     csstype:
       specifier: ^3.2.3
@@ -793,6 +797,9 @@ importers:
       es-toolkit:
         specifier: catalog:prod
         version: 1.43.0
+      flexsearch:
+        specifier: 'catalog:'
+        version: 0.8.212
       pinia:
         specifier: catalog:prod
         version: 3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
@@ -3467,6 +3474,9 @@ packages:
 
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
+
+  flexsearch@0.8.212:
+    resolution: {integrity: sha512-wSyJr1GUWoOOIISRu+X2IXiOcVfg9qqBRyCPRUdLMIGJqPzMo+jMRlvE83t14v1j0dRMEaBbER/adQjp6Du2pw==}
 
   for-each@0.3.5:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
@@ -8575,6 +8585,8 @@ snapshots:
       keyv: 4.5.4
 
   flatted@3.3.3: {}
+
+  flexsearch@0.8.212: {}
 
   for-each@0.3.5:
     dependencies:
