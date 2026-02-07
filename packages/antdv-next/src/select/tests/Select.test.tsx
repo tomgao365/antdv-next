@@ -225,11 +225,11 @@ describe('select', () => {
     })
 
     const input = wrapper.find('input')
-    await input.element.focus()
+    input.element.focus()
     await nextTick()
     expect(onFocus).toHaveBeenCalled()
 
-    await input.element.blur()
+    input.element.blur()
     await nextTick()
     expect(onBlur).toHaveBeenCalled()
     wrapper.unmount()
