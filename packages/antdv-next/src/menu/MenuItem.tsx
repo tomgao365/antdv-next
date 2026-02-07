@@ -83,7 +83,7 @@ const MenuItem = defineComponent<
         return wrapNode
       }
       let tooltipTitle = title
-      if (typeof title === 'undefined') {
+      if (typeof title === 'undefined' || title === null) {
         tooltipTitle = firstLevel ? children : ''
       }
       else if (title === false) {
