@@ -22,7 +22,7 @@ import { devUseWarning, isDev } from '../_util/warning'
 import { useComponentBaseConfig } from '../config-provider/context'
 import Select from '../select'
 
-export type AutoCompleteSemanticName = 'root' | 'prefix' | 'input' | 'placeholder' | 'content'
+export type AutoCompleteSemanticName = 'root' | 'prefix' | 'input' | 'placeholder' | 'content' | 'clear'
 
 export interface AutoCompleteSemanticClassNames {
   root?: string
@@ -30,6 +30,7 @@ export interface AutoCompleteSemanticClassNames {
   input?: string
   placeholder?: string
   content?: string
+  clear?: string
 }
 
 export interface AutoCompleteSemanticStyles {
@@ -38,6 +39,7 @@ export interface AutoCompleteSemanticStyles {
   input?: CSSProperties
   placeholder?: CSSProperties
   content?: CSSProperties
+  clear?: CSSProperties
 }
 
 export interface DataSourceItemObject {
@@ -271,6 +273,7 @@ const InternalAutoComplete = defineComponent<
         input: mergedClassNames.value.input,
         placeholder: mergedClassNames.value.placeholder,
         content: mergedClassNames.value.content,
+        clear: mergedClassNames.value.clear,
         popup: {
           root: clsx(
             props.popupClassName,
@@ -288,6 +291,7 @@ const InternalAutoComplete = defineComponent<
         input: mergedStyles.value.input,
         placeholder: mergedStyles.value.placeholder,
         content: mergedStyles.value.content,
+        clear: mergedStyles.value.clear,
         popup: {
           root: {
             ...props.dropdownStyle,
